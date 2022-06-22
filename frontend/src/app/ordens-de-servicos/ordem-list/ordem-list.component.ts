@@ -64,8 +64,6 @@ export class OrdemListComponent implements AfterViewInit {
   }
 
   detalhes(id: number) {
-    console.log(id);
-
     this.router.navigate(['detalhes', id], {relativeTo: this.activatedRoute});
   }
 }
