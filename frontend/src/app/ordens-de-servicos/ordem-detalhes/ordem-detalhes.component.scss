@@ -1,0 +1,48 @@
+.mat-h2 {
+  font: 500 20px/32px Roboto, "Helvetica Neue", sans-serif;
+  letter-spacing: normal;
+  margin: 0 0 0px;
+}
+
+.space-around {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.example-card {
+  max-width: 100%;
+}
+
+.flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.flex-end {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+div.mat-subheader {
+  font-weight: bold;
+}
+
+.descricao {
+  text-align: justify;
+  padding: 16px;
+}
+
+.td-sm {
+  max-width: 5%;
+}
+
+table {
+  width: 100%;
+}
+
+td, th {
+  width: 25%;
+}

@@ -1,0 +1,76 @@
+<mat-toolbar class="space-around">
+  <h2 class="mat-h2">Detalhes da ordem de serviço</h2>
+</mat-toolbar>
+
+<mat-card>
+  <mat-card-content>
+
+    <mat-list>
+
+      <div mat-subheader>Número</div>
+      <mat-list-item>
+        <div mat-line>{{'1/2022'}}</div>
+      </mat-list-item>
+      <mat-divider></mat-divider>
+
+      <div mat-subheader>Descrição</div>
+      <div class="descricao">
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Nemo saepe harum necessitatibus, quibusdam
+        officiadoloribus et culpa eius, esse repellendus laborum consequuntur fuga voluptas inventore sunt. Deserunt
+        veniameius eveniet.Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nam nulla doloremque nesciunt, ut
+        odio facere iusto architecto facilis dignissimos nostrum, pariatur aut aperiam fuga dolorem soluta, hic
+        adipisci. Dignissimos, eveniet!
+      </div>
+      <mat-divider></mat-divider>
+
+      <div mat-subheader>Profissionais</div>
+      <mat-list-item>
+        <mat-chip-list *ngFor="let profissional of [{nome: 'Marinaldo'}, {nome: 'Marcelino'}]">
+          <mat-chip>{{profissional.nome}}</mat-chip>
+        </mat-chip-list>
+      </mat-list-item>
+      <mat-divider></mat-divider>
+
+      <div mat-subheader>Serviços</div>
+      <div>
+        <table mat-table
+              [dataSource]="[
+                {descricao: 'Pintura em parede', quantidade: '60', und: 'm²'},
+                {descricao: 'Pintura em teto', quantidade: '25', und: 'm²'},
+                {descricao: 'Pintura em esquadria de madeira', quantidade: '5', und: 'm²'}
+              ]" matSort>
+
+          <!-- ID Column -->
+          <ng-container matColumnDef="descricao">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Descricao </th>
+            <td mat-cell class="td-id" *matCellDef="let row" > {{row.descricao}} </td>
+          </ng-container>
+
+          <!-- Progress Column -->
+          <ng-container matColumnDef="und">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="td-sm"> Und </th>
+            <td mat-cell *matCellDef="let row" class="td-sm"> {{row.und}} </td>
+          </ng-container>
+
+          <!-- Name Column -->
+          <ng-container matColumnDef="quantidade">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="td-sm"> Quantidade </th>
+            <td mat-cell class="td-sm" *matCellDef="let row"> {{row.quantidade}} </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr *matRowDef="let row; columns: displayedColumns;"  mat-row></tr>
+
+        </table>
+      </div>
+
+    </mat-list>
+
+  </mat-card-content>
+
+  <mat-card-actions class="flex-end">
+    <button mat-raised-button color="primary">Editar</button>
+    <button mat-raised-button color="warn">Excluir</button>
+  </mat-card-actions>
+
+</mat-card>

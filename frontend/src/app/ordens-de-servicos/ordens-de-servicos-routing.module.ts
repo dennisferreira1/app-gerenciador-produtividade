@@ -1,10 +1,11 @@
-import { OrdemListComponent } from './ordem-list/ordem-list.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { OrdemDetalhesComponent } from './ordem-detalhes/ordem-detalhes.component';
+import { OrdemListComponent } from './ordem-list/ordem-list.component';
 
 const routes: Routes = [
-  { path: '', pathMatch: 'full', redirectTo: 'ordens-de-servicos'},
-  { path: 'ordens-de-servicos', component: OrdemListComponent}
+  { path: '', component: OrdemListComponent },
+  { path: 'detalhes/:id', component: OrdemDetalhesComponent }
 ];
 
 @NgModule({

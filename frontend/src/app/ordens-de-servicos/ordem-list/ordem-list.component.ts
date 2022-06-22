@@ -1,3 +1,4 @@
+import { Router, ActivatedRoute } from '@angular/router';
 import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -36,7 +37,7 @@ export class OrdemListComponent implements AfterViewInit {
   @ViewChild(MatSort)
   sort!: MatSort;
 
-  constructor() {
+  constructor(private router: Router, private activatedRoute: ActivatedRoute) {
     // Create 100 users
     const users = Array.from({length: 50}, (_, k) => createNewOrdem(k + 1));
 
@@ -60,6 +61,12 @@ export class OrdemListComponent implements AfterViewInit {
 
   add() {
 
+  }
+
+  detalhes(id: number) {
+    console.log(id);
+
+    this.router.navigate(['detalhes', id], {relativeTo: this.activatedRoute});
   }
 }
 
