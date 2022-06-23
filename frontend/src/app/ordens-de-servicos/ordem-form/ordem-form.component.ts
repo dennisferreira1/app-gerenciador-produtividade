@@ -3,6 +3,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatChipInputEvent } from '@angular/material/chips';
+import { MatTable } from '@angular/material/table';
 import { map, Observable, startWith } from 'rxjs';
 
 @Component({
@@ -13,16 +14,14 @@ import { map, Observable, startWith } from 'rxjs';
 export class OrdemFormComponent implements OnInit {
 
   allServicos = [
-    {nome: 'Pintura em parede'},
-    {nome: 'Pintura em teto'},
-    {nome: 'Pintura em porta'},
-    {nome: 'Pintura em piso'}
+    {descricao: 'Pintura em parede'},
+    {descricao: 'Pintura em teto'},
+    {descricao: 'Pintura em porta'},
+    {descricao: 'Pintura em piso'}
   ]
 
-  servicos = [
+  servicosSelecionados = [
     {descricao: 'Pintura em parede', quantidade: '60', und: 'm²'},
-    {descricao: 'Pintura em teto', quantidade: '25', und: 'm²'},
-    {descricao: 'Pintura em esquadria de madeira', quantidade: '5', und: 'm²'}
   ]
 
   separatorKeysCodes: number[] = [ENTER, COMMA];
@@ -32,8 +31,9 @@ export class OrdemFormComponent implements OnInit {
   allProfissionais: string[] = ['Marinaldo', 'Ailton', 'Kelieldo', 'Alex', 'Silvano'];
 
   @ViewChild('profisionalInput') profisionalInput!: ElementRef<HTMLInputElement>;
+  @ViewChild(MatTable) table!: MatTable<any>;
 
-  displayedColumns: string[] = ['descricao', 'und', 'quantidade'];
+  displayedColumns: string[] = ['descricao', 'und', 'quantidade', 'acoes'];
 
   form: FormGroup;
 
@@ -47,6 +47,7 @@ export class OrdemFormComponent implements OnInit {
     this.form = this.formBuilder.group({
       numero: ['01/2022'],
       descricao: [null],
+      servicos: [null]
     })
   }
 
@@ -54,9 +55,11 @@ export class OrdemFormComponent implements OnInit {
   }
 
   salvar() {
+    //TO DO
   }
 
   cancelar() {
+     //TO DO
   }
 
   add(event: MatChipInputEvent): void {
@@ -95,6 +98,31 @@ export class OrdemFormComponent implements OnInit {
 
   addServicos() {
 
+    const servicos = this.form.value.servicos;
+
+    servicos.forEach((desc: any) => {
+      const servicoSelecionado = {descricao: desc, quantidade: '', und: 'm²'};
+      this.servicosSelecionados.push(servicoSelecionado);
+    })
+
+
+    this.table.renderRows();
+    this.form.patchValue({
+      servicos: null
+    })
+
+  }
+
+  removeServico(servico: any) {
+    let index = 0;
+    this.servicosSelecionados.forEach(s => {
+      if(s.descricao == servico.descricao) {
+        index = this.servicosSelecionados.indexOf(s);
+      }
+    })
+
+    this.servicosSelecionados.splice(index, 1);
+    this.table.renderRows();
   }
 
 }

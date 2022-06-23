@@ -18,16 +18,20 @@ mat-card {
   min-width: 200px;
 }
 
-.td-sm {
+.td-und {
   max-width: 5%;
+}
+
+.td-qtde .td-acoes {
+  max-width: 10%;
+}
+
+.td-descricao {
+  max-width: 40%;
 }
 
 table {
   width: 100%;
-}
-
-td, th {
-  width: 25%;
 }
 
 .quadro-detalhes {
