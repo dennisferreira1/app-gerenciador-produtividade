@@ -60,7 +60,7 @@ export class OrdemListComponent implements AfterViewInit {
   }
 
   add() {
-
+    this.router.navigate(['cadastrar'], {relativeTo: this.activatedRoute})
   }
 
   detalhes(id: number) {

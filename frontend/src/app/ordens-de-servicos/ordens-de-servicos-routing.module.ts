@@ -7,7 +7,8 @@ import { OrdemListComponent } from './ordem-list/ordem-list.component';
 const routes: Routes = [
   { path: '', component: OrdemListComponent },
   { path: 'detalhes/:id', component: OrdemDetalhesComponent },
-  { path: 'editar/:id', component: OrdemFormComponent }
+  { path: 'editar/:id', component: OrdemFormComponent },
+  { path: 'cadastrar', component: OrdemFormComponent }
 ];
 
 @NgModule({

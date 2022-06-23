@@ -45,5 +45,24 @@
       "profissao": "Pintor",
       "id": 10
     }
+  ],
+
+  "ordens-de-servicos": [
+    {
+      "id": 1,
+      "numero": "01/2022",
+      "descricao": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam quis rhoncus neque. Sed imperdiet tortor quis turpis vehicula, varius auctor erat sodales. Nunc fringilla egestas nisi, at mattis diam mattis sit amet.",
+      "profissionais": [
+        { "nome":"José Ailton", "profissao": "Pintor" }
+      ],
+      "servicos": [
+        {
+          "descricao": "Pintura em parede",
+          "und": "m²",
+          "quantidade": 50
+        }
+      ]
+    }
   ]
+
 }
