@@ -4,7 +4,9 @@ import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { MatTable } from '@angular/material/table';
-import { map, Observable, startWith } from 'rxjs';
+import { map, startWith } from 'rxjs';
+import { ProfissionalService } from 'src/app/profissionais/service/profissional.service';
+import { Profissional } from './../../profissionais/model/profissional';
 
 @Component({
   selector: 'app-ordem-form',
@@ -13,39 +15,48 @@ import { map, Observable, startWith } from 'rxjs';
 })
 export class OrdemFormComponent implements OnInit {
 
+  profissionaisFiltrados: Profissional[] = [];
+  profissionais: Profissional[] = [];
+  allProfissionais: Profissional[] = [];
+
   allServicos = [
-    {descricao: 'Pintura em parede'},
-    {descricao: 'Pintura em teto'},
-    {descricao: 'Pintura em porta'},
-    {descricao: 'Pintura em piso'}
+    { descricao: 'Pintura em parede' },
+    { descricao: 'Pintura em teto' },
+    { descricao: 'Pintura em porta' },
+    { descricao: 'Pintura em piso' }
   ]
 
   servicosSelecionados = [
-    {descricao: 'Pintura em parede', quantidade: '60', und: 'm²'},
+    { descricao: 'Pintura em parede', quantidade: '60', und: 'm²' },
   ]
 
   separatorKeysCodes: number[] = [ENTER, COMMA];
+
   profissionaisCtrl = new FormControl('');
-  profissionaisFiltrados: Observable<string[]>;
-  profissionais: string[] = ['Marinaldo'];
-  allProfissionais: string[] = ['Marinaldo', 'Ailton', 'Kelieldo', 'Alex', 'Silvano'];
 
   @ViewChild('profisionalInput') profisionalInput!: ElementRef<HTMLInputElement>;
+
   @ViewChild(MatTable) table!: MatTable<any>;
 
   displayedColumns: string[] = ['descricao', 'und', 'quantidade', 'acoes'];
 
   form: FormGroup;
 
-  constructor(private formBuilder: FormBuilder) {
+  constructor(
+    private formBuilder: FormBuilder,
+    private profissionalService: ProfissionalService
+  ) {
 
-    this.profissionaisFiltrados = this.profissionaisCtrl.valueChanges.pipe(
+    profissionalService.buscarProfissionais().subscribe(dados => this.allProfissionais = dados);
+
+    this.profissionaisCtrl.valueChanges.pipe(
       startWith(null),
-      map((profissional: string | null) => (profissional ? this._filter(profissional) : this.allProfissionais.slice())),
-    );
+      map((nomeProfissional: string | null) => (nomeProfissional ? this._filter(nomeProfissional) : this.allProfissionais))
+    )
+      .subscribe(dados => this.profissionaisFiltrados = dados);
 
     this.form = this.formBuilder.group({
-      numero: ['01/2022'],
+      numero: [null],
       descricao: [null],
       servicos: [null]
     })
@@ -59,24 +70,34 @@ export class OrdemFormComponent implements OnInit {
   }
 
   cancelar() {
-     //TO DO
+    //TO DO
   }
 
-  add(event: MatChipInputEvent): void {
-    const value = (event.value || '').trim();
+  addProfissional(event: MatChipInputEvent): void {
 
-    // Add our fruit
-    if (value) {
-      this.profissionais.push(value);
-    }
+    const nomeProfissional = (event.value || '').trim().split('-')[0];
 
-    // Clear the input value
-    event.chipInput!.clear();
+    this.profissionalService.getProfissionalByNome(nomeProfissional).subscribe(
+      dados => {
+        const profissional = dados[0];
+        // só add profissional se pertencer a lista de profissonais cadastrados
+        if (profissional) {
+          if (!this.profissionais.find(p => p.nome == profissional.nome)) {
+            this.profissionais.push(profissional);
 
-    this.profissionaisCtrl.setValue(null);
+            // limpa o valor do input
+            event.chipInput!.clear();
+
+            this.profissionaisCtrl.setValue(null);
+          }
+        }
+
+      }
+    )
+
   }
 
-  remove(profissional: string): void {
+  removeProfissional(profissional: Profissional): void {
     const index = this.profissionais.indexOf(profissional);
 
     if (index >= 0) {
@@ -84,16 +105,39 @@ export class OrdemFormComponent implements OnInit {
     }
   }
 
-  selected(event: MatAutocompleteSelectedEvent): void {
-    this.profissionais.push(event.option.viewValue);
-    this.profisionalInput.nativeElement.value = '';
-    this.profissionaisCtrl.setValue(null);
+  profissionalSelected(event: MatAutocompleteSelectedEvent): void {
+
+    const nomeProfissional = event.option.viewValue.trim().split('-')[0];
+
+    this.profissionalService.getProfissionalByNome(nomeProfissional).subscribe(
+      (dados) => {
+        const profissional = dados[0];
+        // só add profissional se pertencer a lista de profissonais cadastrados
+        if (profissional) {
+          // não add profissional já inserido
+          if (!this.profissionais.find(p => p.nome == profissional.nome)) {
+            this.profissionais.push(profissional);
+            this.profisionalInput.nativeElement.value = '';
+            this.profissionaisCtrl.setValue(null);
+          }
+        }
+
+      }
+    )
+
   }
 
-  private _filter(value: string): string[] {
-    const filterValue = value.toLowerCase();
+  private _filter(value: string | Profissional): Profissional[] {
 
-    return this.allProfissionais.filter(profisional => profisional.toLowerCase().includes(filterValue));
+    let filterValue = '';
+
+    if (typeof (value) != 'object') {
+      filterValue = value.toLowerCase();
+    } else {
+      filterValue = value.nome.toLowerCase();
+    }
+
+    return this.allProfissionais.filter(profisional => profisional.nome.toLowerCase().includes(filterValue));
   }
 
   addServicos() {
@@ -101,7 +145,7 @@ export class OrdemFormComponent implements OnInit {
     const servicos = this.form.value.servicos;
 
     servicos.forEach((desc: any) => {
-      const servicoSelecionado = {descricao: desc, quantidade: '', und: 'm²'};
+      const servicoSelecionado = { descricao: desc, quantidade: '', und: 'm²' };
       this.servicosSelecionados.push(servicoSelecionado);
     })
 
@@ -116,7 +160,7 @@ export class OrdemFormComponent implements OnInit {
   removeServico(servico: any) {
     let index = 0;
     this.servicosSelecionados.forEach(s => {
-      if(s.descricao == servico.descricao) {
+      if (s.descricao == servico.descricao) {
         index = this.servicosSelecionados.indexOf(s);
       }
     })

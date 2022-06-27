@@ -16,19 +16,19 @@
       <mat-form-field class="full-width">
         <mat-label>Profissionais</mat-label>
         <mat-chip-list #chipList>
-          <mat-chip *ngFor="let profissional of profissionais" (removed)="remove(profissional)">
-            {{profissional}}
+          <mat-chip *ngFor="let profissional of profissionais" (removed)="removeProfissional(profissional)">
+            {{profissional.nome}} - {{profissional.profissao}}
             <button matChipRemove>
               <mat-icon>cancel</mat-icon>
             </button>
           </mat-chip>
           <input placeholder="Add Profissional..." #profisionalInput [formControl]="profissionaisCtrl"
             [matAutocomplete]="auto" [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-            (matChipInputTokenEnd)="add($event)">
+            (matChipInputTokenEnd)="addProfissional($event)">
         </mat-chip-list>
-        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
-          <mat-option *ngFor="let profissional of profissionaisFiltrados | async" [value]="profissional">
-            {{profissional}}
+        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="profissionalSelected($event)">
+          <mat-option *ngFor="let profissional of profissionaisFiltrados" [value]="profissional">
+            {{profissional.nome}} - {{profissional.profissao}}
           </mat-option>
         </mat-autocomplete>
       </mat-form-field>

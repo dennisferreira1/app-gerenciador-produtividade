@@ -37,4 +37,10 @@ export class ProfissionalService {
       first()
     );
   }
+
+  getProfissionalByNome(nome: string): Observable<Profissional[]> {
+    return this.http.get<Profissional[]>(`${this.API}/profissionais/?nome=${nome}`).pipe(
+      first()
+    );
+  }
 }
