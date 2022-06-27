@@ -15,7 +15,7 @@
 
       <!-- ID Column -->
       <ng-container matColumnDef="numero">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header class="td-id"> Número </th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header class="td-id"> Req. Manutenção </th>
         <td mat-cell class="td-id" *matCellDef="let row" > {{row.numero}} </td>
       </ng-container>
 
@@ -28,11 +28,11 @@
       <!-- Name Column -->
       <ng-container matColumnDef="profissional">
         <th mat-header-cell *matHeaderCellDef mat-sort-header class="td-profissional"> Profissional </th>
-        <td mat-cell class="td-profissional" *matCellDef="let row"> {{row.profissional}} </td>
+        <td mat-cell class="td-profissional" *matCellDef="let row"> {{row.profissionais[0].nome}} </td>
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr *matRowDef="let row; columns: displayedColumns;" (click)="detalhes(row.numero)" mat-row></tr>
+      <tr *matRowDef="let row; columns: displayedColumns;" (click)="detalhes(row)" mat-row></tr>
 
       <!-- Row shown when there is no matching data. -->
       <tr class="mat-row" *matNoDataRow>

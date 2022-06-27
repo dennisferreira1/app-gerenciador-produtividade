@@ -1,23 +1,10 @@
-import { Router, ActivatedRoute } from '@angular/router';
 import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-
-export interface OrdemDeServico {
-  numero: string;
-  descricao: string;
-  profissional: string;
-}
-
-const NAMES: string[] = [
-  'Alex',
-  'Marinaldo',
-  'Ailton',
-  'Silvano',
-  'Marcelino',
-  'Kelieldo'
-];
+import { ActivatedRoute, Router } from '@angular/router';
+import { OrdemDeServico } from './../model/ordem-de-servico';
+import { OrdemService } from './../service/ordem.service';
 
 /**
  * @title Data table with sorting, pagination, and filtering.
@@ -29,7 +16,7 @@ const NAMES: string[] = [
 })
 export class OrdemListComponent implements AfterViewInit {
   displayedColumns: string[] = ['numero', 'descricao', 'profissional'];
-  dataSource: MatTableDataSource<OrdemDeServico>;
+  dataSource: MatTableDataSource<OrdemDeServico> = new MatTableDataSource();
 
   @ViewChild(MatPaginator)
   paginator!: MatPaginator;
@@ -37,13 +24,20 @@ export class OrdemListComponent implements AfterViewInit {
   @ViewChild(MatSort)
   sort!: MatSort;
 
-  constructor(private router: Router, private activatedRoute: ActivatedRoute) {
-    // Create 100 users
-    const users = Array.from({length: 50}, (_, k) => createNewOrdem(k + 1));
+  constructor(
+    private router: Router,
+    private activatedRoute: ActivatedRoute,
+    private ordemService: OrdemService
+  ) {
 
-    // Assign the data to the data source for the table to render
-    this.dataSource = new MatTableDataSource(users);
+    this.ordemService.buscarOrdens().subscribe(
+      (dados: OrdemDeServico[]) => {
+        // Assign the data to the data source for the table to render
+        this.dataSource = new MatTableDataSource(dados);
+      }
+    )
   }
+
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
@@ -63,19 +57,9 @@ export class OrdemListComponent implements AfterViewInit {
     this.router.navigate(['cadastrar'], {relativeTo: this.activatedRoute})
   }
 
-  detalhes(id: number) {
-    this.router.navigate(['detalhes', id], {relativeTo: this.activatedRoute});
+  detalhes(row: any) {
+    this.router.navigate(['detalhes', row.id], {relativeTo: this.activatedRoute});
   }
 }
 
-/** Builds and returns a new User. */
-function createNewOrdem(id: number): OrdemDeServico {
-  const name = NAMES[Math.round(Math.random() * (NAMES.length - 1))]
-
-  return {
-    numero: id.toString(),
-    descricao: "Pintura da Sala " + id,
-    profissional: name
-  };
-}
 

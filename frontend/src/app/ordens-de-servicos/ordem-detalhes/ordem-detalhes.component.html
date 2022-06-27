@@ -7,7 +7,7 @@
 
     <mat-list>
 
-      <div mat-subheader>Número</div>
+      <div mat-subheader>Requisição Manutenção</div>
       <mat-list-item>
         <div mat-line>{{ordemDeServico.numero}}</div>
       </mat-list-item>
@@ -61,7 +61,7 @@
 
   <mat-card-actions class="flex-end">
     <button (click)="editar()" mat-raised-button color="primary">Editar</button>
-    <button mat-raised-button color="warn">Excluir</button>
+    <button (click)="excluir()" mat-raised-button color="warn">Excluir</button>
   </mat-card-actions>
 
 </mat-card>

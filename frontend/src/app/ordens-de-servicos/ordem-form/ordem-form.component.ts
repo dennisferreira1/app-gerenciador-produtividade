@@ -1,12 +1,21 @@
+import { ActivatedRoute } from '@angular/router';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatChipInputEvent } from '@angular/material/chips';
+import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTable } from '@angular/material/table';
 import { map, startWith } from 'rxjs';
 import { ProfissionalService } from 'src/app/profissionais/service/profissional.service';
+import { ErrorDialogComponent } from 'src/app/shared/components/error-dialog/error-dialog.component';
+import { SuccessDialogComponent } from 'src/app/shared/components/success-dialog/success-dialog.component';
 import { Profissional } from './../../profissionais/model/profissional';
+import { OrdemService } from './../service/ordem.service';
+import { Location } from '@angular/common';
+import { OrdemDeServico, Servico } from '../model/ordem-de-servico';
+import { DeleteDialogComponent } from 'src/app/shared/components/delete-dialog/delete-dialog.component';
 
 @Component({
   selector: 'app-ordem-form',
@@ -26,9 +35,7 @@ export class OrdemFormComponent implements OnInit {
     { descricao: 'Pintura em piso' }
   ]
 
-  servicosSelecionados = [
-    { descricao: 'Pintura em parede', quantidade: '60', und: 'm²' },
-  ]
+  servicosSelecionados: Servico[] = [];
 
   separatorKeysCodes: number[] = [ENTER, COMMA];
 
@@ -44,7 +51,12 @@ export class OrdemFormComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private profissionalService: ProfissionalService
+    private profissionalService: ProfissionalService,
+    private ordemService: OrdemService,
+    private location: Location,
+    private dialog: MatDialog,
+    private _snackBar: MatSnackBar,
+    private activatedRoute: ActivatedRoute
   ) {
 
     profissionalService.buscarProfissionais().subscribe(dados => this.allProfissionais = dados);
@@ -55,22 +67,47 @@ export class OrdemFormComponent implements OnInit {
     )
       .subscribe(dados => this.profissionaisFiltrados = dados);
 
+    const ordem: OrdemDeServico = this.activatedRoute.snapshot.data['ordem'];
+
     this.form = this.formBuilder.group({
-      numero: [null],
-      descricao: [null],
+      id: [ordem.id],
+      numero: [ordem.numero],
+      descricao: [ordem.descricao],
       servicos: [null]
     })
+
+    this.profissionais = ordem.profissionais;
+    this.servicosSelecionados = ordem.servicos;
   }
 
   ngOnInit(): void {
   }
 
   salvar() {
-    //TO DO
+
+    const ordem = {
+      id: this.form.value.id,
+      numero: this.form.value.numero,
+      descricao: this.form.value.descricao,
+      profissionais: this.profissionais,
+      servicos: this.servicosSelecionados
+    }
+
+    if(ordem.id == null) {
+      this.ordemService.salvar(ordem).subscribe(
+        dados => this.openDialogSuccess(),
+        error => this.openDialogError("Erro ao salvar ordem de serviço!")
+      )
+    } else {
+      this.ordemService.atualizar(ordem).subscribe(
+        dados => this.openDialogSuccess(),
+        error => this.openDialogError("Erro ao atualizar dados da ordem de serviço!")
+      )
+    }
   }
 
   cancelar() {
-    //TO DO
+    this.location.back();
   }
 
   addProfissional(event: MatChipInputEvent): void {
@@ -91,7 +128,6 @@ export class OrdemFormComponent implements OnInit {
             this.profissionaisCtrl.setValue(null);
           }
         }
-
       }
     )
 
@@ -141,11 +177,10 @@ export class OrdemFormComponent implements OnInit {
   }
 
   addServicos() {
-
     const servicos = this.form.value.servicos;
 
     servicos.forEach((desc: any) => {
-      const servicoSelecionado = { descricao: desc, quantidade: '', und: 'm²' };
+      const servicoSelecionado = { descricao: desc, quantidade: 0, und: 'm²' };
       this.servicosSelecionados.push(servicoSelecionado);
     })
 
@@ -167,6 +202,15 @@ export class OrdemFormComponent implements OnInit {
 
     this.servicosSelecionados.splice(index, 1);
     this.table.renderRows();
+  }
+
+  openDialogError(errorMsg: string) {
+    this.dialog.open(ErrorDialogComponent, {data: errorMsg});
+  }
+
+  openDialogSuccess() {
+    this._snackBar.openFromComponent(SuccessDialogComponent, {duration: 2000, verticalPosition: 'top'});
+    this.cancelar();
   }
 
 }
