@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.pds.backend.entidades.OrdemDeServico;
+import com.pds.backend.entidades.OrdemServicoDTO;
 import com.pds.backend.servicos.OrdemService;
 
 @RestController
@@ -32,8 +33,8 @@ public class OrdemController {
     }
 
     @PostMapping
-    public ResponseEntity<OrdemDeServico> cadastrarOrdem(@RequestBody OrdemDeServico ordem) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(this.ordemService.cadastrarOrdem(ordem));
+    public ResponseEntity<OrdemDeServico> cadastrarOrdem(@RequestBody OrdemServicoDTO ordemDTO) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(this.ordemService.cadastrarOrdem(ordemDTO));
     }
 
     /*

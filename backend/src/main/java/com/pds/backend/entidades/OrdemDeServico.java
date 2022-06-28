@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 @Entity
 public class OrdemDeServico {
@@ -20,11 +21,11 @@ public class OrdemDeServico {
 
     private String numeroRequisicao;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    private List<Profissional> profissionais;
+    @OneToOne(mappedBy = "ordemServico", cascade = CascadeType.ALL)
+    private ExecucaoOrdemServico execucaoOrdemServico;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    private List<Servico> servicos;
+    @OneToMany(mappedBy = "ordemServico", cascade = CascadeType.ALL)
+    private List<Quantitativo> quantitativos;
 
     public Long getId() {
         return id;
@@ -50,20 +51,20 @@ public class OrdemDeServico {
         this.numeroRequisicao = numeroRequisicao;
     }
 
-    public List<Profissional> getProfissionais() {
-        return profissionais;
+    public ExecucaoOrdemServico getExecucaoOrdemServico() {
+        return execucaoOrdemServico;
     }
 
-    public void setProfissionais(List<Profissional> profissionais) {
-        this.profissionais = profissionais;
+    public void setExecucaoOrdemServico(ExecucaoOrdemServico execucaoOrdemServico) {
+        this.execucaoOrdemServico = execucaoOrdemServico;
     }
 
-    public List<Servico> getServicos() {
-        return servicos;
+    public List<Quantitativo> getQuantitativos() {
+        return quantitativos;
     }
 
-    public void setServicos(List<Servico> servicos) {
-        this.servicos = servicos;
+    public void setQuantitativos(List<Quantitativo> quantitativos) {
+        this.quantitativos = quantitativos;
     }
 
     @Override
@@ -93,10 +94,9 @@ public class OrdemDeServico {
 
     @Override
     public String toString() {
-        return "OrdemDeServico [descricao=" + descricao + ", id=" + id + ", numeroRequisicao=" + numeroRequisicao
-                + ", profissionais=" + profissionais + ", servicos=" + servicos + "]";
-    }  
+        return "OrdemDeServico [descricao=" + descricao + ", execucaoOrdemServico=" + execucaoOrdemServico + ", id="
+                + id + ", numeroRequisicao=" + numeroRequisicao + ", quantitativos=" + quantitativos + "]";
+    }
 
-    
     
 }

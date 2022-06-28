@@ -1,9 +1,14 @@
 package com.pds.backend.entidades;
 
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 
 @Entity
 public class Profissional {
@@ -16,7 +21,9 @@ public class Profissional {
 
     private String profissao;
 
-    public Profissional() { /* TODO document why this constructor is empty */ }
+    @ManyToMany
+    @JoinTable(name = "ExecucaoOrdemServico_Profissional" , joinColumns = @JoinColumn(name = "profissionalId"), inverseJoinColumns = @JoinColumn(name = "execucaoOrdemServicoId"))
+    private List<ExecucaoOrdemServico> listExecucaoOrdemServico;
 
     public Long getId() {
         return id;
@@ -40,6 +47,14 @@ public class Profissional {
 
     public void setProfissao(String profissao) {
         this.profissao = profissao;
+    }
+
+    public List<ExecucaoOrdemServico> getListExecucaoOrdemServico() {
+        return listExecucaoOrdemServico;
+    }
+
+    public void setListExecucaoOrdemServico(List<ExecucaoOrdemServico> listExecucaoOrdemServico) {
+        this.listExecucaoOrdemServico = listExecucaoOrdemServico;
     }
 
     @Override
@@ -69,6 +84,10 @@ public class Profissional {
 
     @Override
     public String toString() {
-        return "Profissional [id=" + id + ", nome=" + nome + ", profissao=" + profissao + "]";
+        return "Profissional [id=" + id + ", listExecucaoOrdemServico=" + listExecucaoOrdemServico + ", nome=" + nome
+                + ", profissao=" + profissao + "]";
     }
+
+    
+   
 }
