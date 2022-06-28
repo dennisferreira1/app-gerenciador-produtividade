@@ -1,63 +1,54 @@
-package com.pds.backend.entidades;
+package com.pds.backend.dominio.entidades;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
 @Entity
-public class Quantitativo {
+public class Servico {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne
-    @JoinColumn(name = "servico_id")
-    private Servico servico;
-    
-    private Double quantidade;
+    private String descricao;
 
-    @ManyToOne
-    @JoinColumn(name = "ordem_servico_id")
-    private OrdemDeServico ordemServico;
+    private String und;
 
-    public Quantitativo() {
+    public Servico() {
     }
 
-    public Quantitativo(Servico servico, Double quantidade) {
-        this.servico = servico;
-        this.quantidade = quantidade;
+    public Servico(Long id, String descricao, String und) {
+        this.id = id;
+        this.descricao = descricao;
+        this.und = und;
     }
+
+    @OneToOne(mappedBy = "servico")
+    private Quantitativo quantitativo;
 
     public Long getId() {
         return id;
     }
-
     public void setId(Long id) {
         this.id = id;
     }
 
-    public Servico getServico() {
-        return servico;
+    public String getDescricao() {
+        return descricao;
+    }
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
     }
 
-    public void setServico(Servico servico) {
-        this.servico = servico;
+    public String getUnd() {
+        return und;
     }
-
-    public Double getQuantidade() {
-        return quantidade;
+    public void setUnd(String und) {
+        this.und = und;
     }
-
-    public void setQuantidade(Double quantidade) {
-        this.quantidade = quantidade;
-    }
-
-    
 
     @Override
     public int hashCode() {
@@ -66,7 +57,7 @@ public class Quantitativo {
         result = prime * result + ((id == null) ? 0 : id.hashCode());
         return result;
     }
-
+    
     @Override
     public boolean equals(Object obj) {
         if (this == obj)
@@ -75,7 +66,7 @@ public class Quantitativo {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        Quantitativo other = (Quantitativo) obj;
+        Servico other = (Servico) obj;
         if (id == null) {
             if (other.id != null)
                 return false;
@@ -86,10 +77,8 @@ public class Quantitativo {
 
     @Override
     public String toString() {
-        return "Quantitativo [id=" + id + ", quantidade=" + quantidade + ", servico=" + servico + "]";
+        return "Servico [descricao=" + descricao + ", id=" + id + ", und=" + und + "]";
     }
-
-    
 
     
 

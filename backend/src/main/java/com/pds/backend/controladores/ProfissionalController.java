@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.pds.backend.entidades.Profissional;
+import com.pds.backend.dominio.entidades.Profissional;
 import com.pds.backend.servicos.ProfissionalService;
 
 @RestController

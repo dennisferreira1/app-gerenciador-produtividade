@@ -4,12 +4,12 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.pds.backend.entidades.ExecucaoOrdemServico;
-import com.pds.backend.entidades.OrdemDeServico;
-import com.pds.backend.entidades.OrdemServicoDTO;
-import com.pds.backend.entidades.Quantitativo;
-import com.pds.backend.entidades.Servico;
-import com.pds.backend.entidades.ServicoDTO;
+import com.pds.backend.dominio.dto.OrdemServicoDTO;
+import com.pds.backend.dominio.dto.ServicoDTO;
+import com.pds.backend.dominio.entidades.ExecucaoOrdemServico;
+import com.pds.backend.dominio.entidades.OrdemDeServico;
+import com.pds.backend.dominio.entidades.Quantitativo;
+import com.pds.backend.dominio.entidades.Servico;
 import com.pds.backend.repositorios.OrdemRepository;
 
 @Service
@@ -36,19 +36,17 @@ public class OrdemService {
                 .map((ServicoDTO servicoDTO) -> new Quantitativo(new Servico(servicoDTO.getId(), servicoDTO.getDescricao(), servicoDTO.getUnd()), servicoDTO.getQuantidade()))
                 .toList()
         );
+
+        
         return ordemRepository.saveAndFlush(ordemServico);
     }
 
-    /*
-     * public Profissional atualizarOrdem(Long id, OrdemDeServico ordem) {
-     * //OrdemDeServico ordemBuscada = ordemRepository.findById(id).orElseThrow();
-     * 
-     * //profissionalBuscado.setNome(profissional.getNome());
-     * //profissionalBuscado.setProfissao(profissional.getProfissao());
-     * 
-     * //return ordemRepository.save(profissionalBuscado);
-     * }
-     */
+    
+    public OrdemDeServico atualizarOrdem(Long id, OrdemDeServico ordem) {
+        // TODO
+        return null;
+    }
+    
 
     public void excluirOrdem(Long id) {
         OrdemDeServico ordemBuscada = ordemRepository.findById(id).orElseThrow();

@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.pds.backend.entidades.OrdemDeServico;
-import com.pds.backend.entidades.OrdemServicoDTO;
+import com.pds.backend.dominio.dto.OrdemServicoDTO;
+import com.pds.backend.dominio.entidades.OrdemDeServico;
 import com.pds.backend.servicos.OrdemService;
 
 @RestController

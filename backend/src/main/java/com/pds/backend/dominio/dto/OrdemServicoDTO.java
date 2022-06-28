@@ -1,6 +1,8 @@
-package com.pds.backend.entidades;
+package com.pds.backend.dominio.dto;
 
 import java.util.List;
+
+import com.pds.backend.dominio.entidades.Profissional;
 
 public class OrdemServicoDTO {
     private String numero;

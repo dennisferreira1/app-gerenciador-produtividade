@@ -1,4 +1,4 @@
-package com.pds.backend.entidades;
+package com.pds.backend.dominio.entidades;
 
 import java.util.List;
 
@@ -21,10 +21,10 @@ public class OrdemDeServico {
 
     private String numeroRequisicao;
 
-    @OneToOne(mappedBy = "ordemServico", cascade = CascadeType.ALL)
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private ExecucaoOrdemServico execucaoOrdemServico;
 
-    @OneToMany(mappedBy = "ordemServico", cascade = CascadeType.ALL)
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private List<Quantitativo> quantitativos;
 
     public Long getId() {
@@ -96,7 +96,5 @@ public class OrdemDeServico {
     public String toString() {
         return "OrdemDeServico [descricao=" + descricao + ", execucaoOrdemServico=" + execucaoOrdemServico + ", id="
                 + id + ", numeroRequisicao=" + numeroRequisicao + ", quantitativos=" + quantitativos + "]";
-    }
-
-    
+    }  
 }

@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.pds.backend.entidades.Profissional;
+import com.pds.backend.dominio.entidades.Profissional;
 import com.pds.backend.repositorios.ProfissionalRepository;
 
 @Service

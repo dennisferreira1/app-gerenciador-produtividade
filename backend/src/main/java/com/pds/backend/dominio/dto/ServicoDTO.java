@@ -1,4 +1,4 @@
-package com.pds.backend.entidades;
+package com.pds.backend.dominio.dto;
 
 public class ServicoDTO {
 

@@ -1,4 +1,4 @@
-package com.pds.backend.entidades;
+package com.pds.backend.dominio.entidades;
 
 import java.util.List;
 
@@ -6,9 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToOne;
 
 @Entity
 public class ExecucaoOrdemServico {
@@ -17,12 +15,9 @@ public class ExecucaoOrdemServico {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToMany(mappedBy = "listExecucaoOrdemServico")
+    @ManyToMany
     private List<Profissional> profissionais;
 
-    @OneToOne
-    @JoinColumn(name = "ordem_servico_id")
-    private OrdemDeServico ordemServico;
 
     public ExecucaoOrdemServico() {
     }
@@ -39,14 +34,6 @@ public class ExecucaoOrdemServico {
         this.id = id;
     }
 
-    public OrdemDeServico getOrdemServico() {
-        return ordemServico;
-    }
-
-    public void setOrdemServico(OrdemDeServico ordemServico) {
-        this.ordemServico = ordemServico;
-    }
-
     public List<Profissional> getProfissionais() {
         return profissionais;
     }
@@ -57,8 +44,6 @@ public class ExecucaoOrdemServico {
 
     @Override
     public String toString() {
-        return "ExecucaoOrdemServico [id=" + id + ", ordemServico=" + ordemServico + ", profissionais=" + profissionais
-                + "]";
-    }
-    
+        return "ExecucaoOrdemServico [id=" + id + ", profissionais=" + profissionais + "]";
+    }  
 }
