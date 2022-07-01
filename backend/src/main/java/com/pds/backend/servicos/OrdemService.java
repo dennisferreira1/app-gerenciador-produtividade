@@ -42,15 +42,30 @@ public class OrdemService {
     }
 
     
-    public OrdemDeServico atualizarOrdem(Long id, OrdemDeServico ordem) {
-        // TODO
-        return null;
+    public OrdemDeServico atualizarOrdem(Long id, OrdemServicoDTO ordemDTO) {
+        OrdemDeServico ordemBuscada = buscarOrdemPorId(id);
+        
+        ordemBuscada.setDescricao(ordemDTO.getDescricao());
+        ordemBuscada.setNumeroRequisicao(ordemDTO.getNumero());
+        ordemBuscada.getExecucaoOrdemServico().setProfissionais(ordemDTO.getProfissionais());
+        
+        /*ordemBuscada.setQuantitativos(
+             ordemDTO.getServicos()
+                .stream()
+                .map((ServicoDTO servicoDTO) -> new Quantitativo(new Servico(servicoDTO.getId(), servicoDTO.getDescricao(), servicoDTO.getUnd()), servicoDTO.getQuantidade()))
+                .toList()
+        );*/ 
+
+        return ordemRepository.save(ordemBuscada);
     }
-    
 
     public void excluirOrdem(Long id) {
         OrdemDeServico ordemBuscada = ordemRepository.findById(id).orElseThrow();
         ordemRepository.delete(ordemBuscada);
+    }
+
+    public OrdemDeServico buscarOrdemPorId(Long id) {
+        return ordemRepository.findById(id).orElseThrow();
     }
 
 }
