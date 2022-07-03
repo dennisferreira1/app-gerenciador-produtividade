@@ -1,5 +1,6 @@
 package com.pds.backend.dominio.entidades;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -24,8 +25,13 @@ public class OrdemDeServico {
     @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private ExecucaoOrdemServico execucaoOrdemServico;
 
-    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    private List<Quantitativo> quantitativos;
+    @OneToMany(mappedBy = "ordem", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Quantitativo> quantitativos = new ArrayList<>();
+
+    public void addQuantitavo(Quantitativo q) {
+        quantitativos.add(q);
+        q.setOrdem(this);
+    }
 
     public Long getId() {
         return id;

@@ -5,6 +5,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
 @Entity
@@ -19,6 +20,9 @@ public class Quantitativo {
     private Servico servico;
     
     private Double quantidade;
+
+    @ManyToOne
+    private OrdemDeServico ordem;
 
     public Quantitativo() {
     }
@@ -50,6 +54,14 @@ public class Quantitativo {
 
     public void setQuantidade(Double quantidade) {
         this.quantidade = quantidade;
+    }
+
+    public OrdemDeServico getOrdem() {
+        return ordem;
+    }
+
+    public void setOrdem(OrdemDeServico ordem) {
+        this.ordem = ordem;
     }
 
     @Override

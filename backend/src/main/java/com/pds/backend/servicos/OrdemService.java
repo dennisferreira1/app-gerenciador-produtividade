@@ -33,14 +33,18 @@ public class OrdemService {
         ordemServico.setDescricao(ordemDTO.getDescricao());
         ordemServico.setNumeroRequisicao(ordemDTO.getNumero());
         ordemServico.setExecucaoOrdemServico(new ExecucaoOrdemServico(ordemDTO.getProfissionais()));
-        ordemServico.setQuantitativos(
-            ordemDTO.getServicos()
+
+        var quantitativos = ordemDTO.getServicos()
                 .stream()
                 .map((ServicoDTO servicoDTO) -> new Quantitativo(new Servico(servicoDTO.getId(), servicoDTO.getDescricao(), servicoDTO.getUnd()), servicoDTO.getQuantidade()))
-                .toList()
-        );
-
+                .toList();
+        
+        for(Quantitativo q : quantitativos) {
+            ordemServico.addQuantitavo(q);
+        }
+        
         ordemServico = ordemRepository.saveAndFlush(ordemServico);
+
         return convertParaDTO(ordemServico);
     }
 
@@ -52,14 +56,20 @@ public class OrdemService {
         ordemBuscada.setNumeroRequisicao(ordemDTO.getNumero());
         ordemBuscada.getExecucaoOrdemServico().setProfissionais(ordemDTO.getProfissionais());
         
-        /*ordemBuscada.setQuantitativos(
-             ordemDTO.getServicos()
-                .stream()
-                .map((ServicoDTO servicoDTO) -> new Quantitativo(new Servico(servicoDTO.getId(), servicoDTO.getDescricao(), servicoDTO.getUnd()), servicoDTO.getQuantidade()))
-                .toList()
-        );*/ 
+        var quantitativos = ordemDTO.getServicos()
+        .stream()
+        .map((ServicoDTO servicoDTO) -> new Quantitativo(new Servico(servicoDTO.getId(), servicoDTO.getDescricao(), servicoDTO.getUnd()), servicoDTO.getQuantidade()))
+        .toList();
 
-        return convertParaDTO(ordemRepository.save(ordemBuscada));
+        // remove os quantitativos existentes
+        ordemBuscada.getQuantitativos().clear();
+
+        // insere os novos quantitativos
+        for(Quantitativo q : quantitativos) {
+            ordemBuscada.addQuantitavo(q);
+        }
+
+        return convertParaDTO(ordemRepository.saveAndFlush(ordemBuscada));
     }
 
     public void excluirOrdem(Long id) {
@@ -79,7 +89,7 @@ public class OrdemService {
         dto.setProfissionais(ordemServico.getExecucaoOrdemServico().getProfissionais());
         dto.setServicos(ordemServico.getQuantitativos()
             .stream()
-            .map((Quantitativo q) -> new ServicoDTO(q.getId(),q.getServico().getDescricao(),q.getQuantidade(), q.getServico().getUnd()))
+            .map((Quantitativo q) -> new ServicoDTO(q.getServico().getId(),q.getServico().getDescricao(),q.getQuantidade(), q.getServico().getUnd()))
             .toList()
         );
 
