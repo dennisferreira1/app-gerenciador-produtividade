@@ -6,7 +6,16 @@ public class ServicoDTO {
     private String descricao;
     private String und;
     private Double quantidade;
+    
+    public ServicoDTO() {
+    }
 
+    public ServicoDTO(Long id, String descricao, Double quantidade, String und) {
+        this.id = id;
+        this.descricao = descricao;
+        this.und = und;
+        this.quantidade = quantidade;
+    }
     
     public Long getId() {
         return id;

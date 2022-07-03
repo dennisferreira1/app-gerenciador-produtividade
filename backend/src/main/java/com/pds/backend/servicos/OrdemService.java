@@ -21,11 +21,14 @@ public class OrdemService {
         this.ordemRepository = ordemRepository;
     }
 
-    public List<OrdemDeServico> buscarOrdens() {
-        return ordemRepository.findAll();
+    public List<OrdemServicoDTO> buscarOrdens() {
+        return ordemRepository.findAll()
+                    .stream()
+                    .map((OrdemDeServico ordem) -> convertParaDTO(ordem))
+                    .toList();
     }
 
-    public OrdemDeServico cadastrarOrdem(OrdemServicoDTO ordemDTO) {
+    public OrdemServicoDTO cadastrarOrdem(OrdemServicoDTO ordemDTO) {
         var ordemServico = new OrdemDeServico();
         ordemServico.setDescricao(ordemDTO.getDescricao());
         ordemServico.setNumeroRequisicao(ordemDTO.getNumero());
@@ -37,13 +40,13 @@ public class OrdemService {
                 .toList()
         );
 
-        
-        return ordemRepository.saveAndFlush(ordemServico);
+        ordemServico = ordemRepository.saveAndFlush(ordemServico);
+        return convertParaDTO(ordemServico);
     }
 
-    
-    public OrdemDeServico atualizarOrdem(Long id, OrdemServicoDTO ordemDTO) {
-        OrdemDeServico ordemBuscada = buscarOrdemPorId(id);
+
+    public OrdemServicoDTO atualizarOrdem(Long id, OrdemServicoDTO ordemDTO) {
+        OrdemDeServico ordemBuscada = ordemRepository.findById(id).orElseThrow();
         
         ordemBuscada.setDescricao(ordemDTO.getDescricao());
         ordemBuscada.setNumeroRequisicao(ordemDTO.getNumero());
@@ -56,7 +59,7 @@ public class OrdemService {
                 .toList()
         );*/ 
 
-        return ordemRepository.save(ordemBuscada);
+        return convertParaDTO(ordemRepository.save(ordemBuscada));
     }
 
     public void excluirOrdem(Long id) {
@@ -64,8 +67,23 @@ public class OrdemService {
         ordemRepository.delete(ordemBuscada);
     }
 
-    public OrdemDeServico buscarOrdemPorId(Long id) {
-        return ordemRepository.findById(id).orElseThrow();
+    public OrdemServicoDTO buscarOrdemPorId(Long id) {
+        return convertParaDTO(ordemRepository.findById(id).orElseThrow());
+    }
+
+    private OrdemServicoDTO convertParaDTO(OrdemDeServico ordemServico) {
+        var dto = new OrdemServicoDTO();
+        dto.setId(ordemServico.getId());
+        dto.setNumero(ordemServico.getNumeroRequisicao());
+        dto.setDescricao(ordemServico.getDescricao());
+        dto.setProfissionais(ordemServico.getExecucaoOrdemServico().getProfissionais());
+        dto.setServicos(ordemServico.getQuantitativos()
+            .stream()
+            .map((Quantitativo q) -> new ServicoDTO(q.getId(),q.getServico().getDescricao(),q.getQuantidade(), q.getServico().getUnd()))
+            .toList()
+        );
+
+        return dto;
     }
 
 }

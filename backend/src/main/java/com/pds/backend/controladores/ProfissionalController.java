@@ -18,7 +18,7 @@ import com.pds.backend.dominio.entidades.Profissional;
 import com.pds.backend.servicos.ProfissionalService;
 
 @RestController
-@RequestMapping("/profissionais")
+@RequestMapping("api/profissionais")
 public class ProfissionalController {
 
     private final ProfissionalService profissionalService;

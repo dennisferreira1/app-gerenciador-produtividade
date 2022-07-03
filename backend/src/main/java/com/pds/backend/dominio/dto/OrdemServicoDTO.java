@@ -5,11 +5,18 @@ import java.util.List;
 import com.pds.backend.dominio.entidades.Profissional;
 
 public class OrdemServicoDTO {
+    private Long id;
     private String numero;
     private String descricao;
     private List<ServicoDTO> servicos;
     private List<Profissional> profissionais;
 
+    public Long getId() {
+        return id;
+    }
+    public void setId(Long id) {
+        this.id = id;
+    }
     public String getNumero() {
         return numero;
     }
@@ -35,5 +42,4 @@ public class OrdemServicoDTO {
         this.profissionais = profissionais;
     }
 
-    
 }

@@ -15,12 +15,10 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.pds.backend.dominio.dto.OrdemServicoDTO;
-import com.pds.backend.dominio.entidades.OrdemDeServico;
 import com.pds.backend.servicos.OrdemService;
 
-
 @RestController
-@RequestMapping("/ordens-de-servicos")
+@RequestMapping("api/ordens-de-servicos")
 public class OrdemController {
 
     private final OrdemService ordemService;
@@ -30,18 +28,18 @@ public class OrdemController {
     }
 
     @GetMapping
-    public ResponseEntity<List<OrdemDeServico>> buscarOrdens() {
+    public ResponseEntity<List<OrdemServicoDTO>> buscarOrdens() {
         return ResponseEntity.ok(ordemService.buscarOrdens());
     }
 
     @PostMapping
-    public ResponseEntity<OrdemDeServico> cadastrarOrdem(@RequestBody OrdemServicoDTO ordemDTO) {
+    public ResponseEntity<OrdemServicoDTO> cadastrarOrdem(@RequestBody OrdemServicoDTO ordemDTO) {
         return ResponseEntity.status(HttpStatus.CREATED).body(this.ordemService.cadastrarOrdem(ordemDTO));
     }
 
     
     @PutMapping("/{id}")
-    public ResponseEntity<OrdemDeServico> atualizarOrdem(@PathVariable Long id, @RequestBody OrdemServicoDTO ordemDTO) {
+    public ResponseEntity<OrdemServicoDTO> atualizarOrdem(@PathVariable Long id, @RequestBody OrdemServicoDTO ordemDTO) {
         return ResponseEntity.status(HttpStatus.OK).body(this.ordemService.atualizarOrdem(id, ordemDTO));
     }
 
@@ -52,7 +50,7 @@ public class OrdemController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<OrdemDeServico> buscarOrdemPorId(@PathVariable Long id) {
+    public ResponseEntity<OrdemServicoDTO> buscarOrdemPorId(@PathVariable Long id) {
         return ResponseEntity.status(HttpStatus.OK).body(this.ordemService.buscarOrdemPorId(id));
     }
     
