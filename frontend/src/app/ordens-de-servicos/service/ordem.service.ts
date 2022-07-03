@@ -8,7 +8,7 @@ import { OrdemDeServico } from '../model/ordem-de-servico';
   providedIn: 'root'
 })
 export class OrdemService {
-  private readonly API = 'http://localhost:3000';
+  private readonly API = '/api';
 
   constructor(private http: HttpClient) { }
 

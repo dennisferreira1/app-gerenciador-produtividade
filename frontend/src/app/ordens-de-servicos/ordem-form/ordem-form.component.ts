@@ -1,5 +1,6 @@
-import { ActivatedRoute } from '@angular/router';
+import { ServicoService } from './../../servicos/servico.service';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
+import { Location } from '@angular/common';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
@@ -7,15 +8,15 @@ import { MatChipInputEvent } from '@angular/material/chips';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTable } from '@angular/material/table';
+import { ActivatedRoute } from '@angular/router';
 import { map, startWith } from 'rxjs';
 import { ProfissionalService } from 'src/app/profissionais/service/profissional.service';
 import { ErrorDialogComponent } from 'src/app/shared/components/error-dialog/error-dialog.component';
 import { SuccessDialogComponent } from 'src/app/shared/components/success-dialog/success-dialog.component';
+import { ItemServico, OrdemDeServico } from '../model/ordem-de-servico';
 import { Profissional } from './../../profissionais/model/profissional';
 import { OrdemService } from './../service/ordem.service';
-import { Location } from '@angular/common';
-import { OrdemDeServico, Servico } from '../model/ordem-de-servico';
-import { DeleteDialogComponent } from 'src/app/shared/components/delete-dialog/delete-dialog.component';
+import { Servico } from 'src/app/servicos/servico';
 
 @Component({
   selector: 'app-ordem-form',
@@ -28,14 +29,9 @@ export class OrdemFormComponent implements OnInit {
   profissionais: Profissional[] = [];
   allProfissionais: Profissional[] = [];
 
-  allServicos = [
-    { descricao: 'Pintura em parede' },
-    { descricao: 'Pintura em teto' },
-    { descricao: 'Pintura em porta' },
-    { descricao: 'Pintura em piso' }
-  ]
+  allServicos: Servico[] = [];
 
-  servicosSelecionados: Servico[] = [];
+  servicosSelecionados: ItemServico[] = [];
 
   separatorKeysCodes: number[] = [ENTER, COMMA];
 
@@ -56,10 +52,13 @@ export class OrdemFormComponent implements OnInit {
     private location: Location,
     private dialog: MatDialog,
     private _snackBar: MatSnackBar,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private servicoService: ServicoService
   ) {
 
     profissionalService.buscarProfissionais().subscribe(dados => this.allProfissionais = dados);
+
+    servicoService.getServicos().subscribe(dados => this.allServicos = dados)
 
     this.profissionaisCtrl.valueChanges.pipe(
       startWith(null),
@@ -112,24 +111,20 @@ export class OrdemFormComponent implements OnInit {
 
   addProfissional(event: MatChipInputEvent): void {
 
-    const nomeProfissional = (event.value || '').trim().split('-')[0];
+    const nomeProfissional = (event.value || '').split('-')[0].trim();
 
-    this.profissionalService.getProfissionalByNome(nomeProfissional).subscribe(
-      dados => {
-        const profissional = dados[0];
-        // só add profissional se pertencer a lista de profissonais cadastrados
-        if (profissional) {
-          if (!this.profissionais.find(p => p.nome == profissional.nome)) {
-            this.profissionais.push(profissional);
+    const profissional = this.allProfissionais.find(p => p.nome == nomeProfissional);
 
-            // limpa o valor do input
-            event.chipInput!.clear();
+    if (profissional) {
+      if (!this.profissionais.find(p => p.nome == profissional.nome)) {
+        this.profissionais.push(profissional);
 
-            this.profissionaisCtrl.setValue(null);
-          }
-        }
+        // limpa o valor do input
+        event.chipInput!.clear();
+
+        this.profissionaisCtrl.setValue(null);
       }
-    )
+    }
 
   }
 
@@ -143,24 +138,18 @@ export class OrdemFormComponent implements OnInit {
 
   profissionalSelected(event: MatAutocompleteSelectedEvent): void {
 
-    const nomeProfissional = event.option.viewValue.trim().split('-')[0];
+    const nomeProfissional = event.option.viewValue.split('-')[0].trim();
 
-    this.profissionalService.getProfissionalByNome(nomeProfissional).subscribe(
-      (dados) => {
-        const profissional = dados[0];
-        // só add profissional se pertencer a lista de profissonais cadastrados
-        if (profissional) {
-          // não add profissional já inserido
-          if (!this.profissionais.find(p => p.nome == profissional.nome)) {
-            this.profissionais.push(profissional);
-            this.profisionalInput.nativeElement.value = '';
-            this.profissionaisCtrl.setValue(null);
-          }
-        }
-
+    const profissional = this.allProfissionais.find(p => p.nome == nomeProfissional);
+    // só add profissional se pertencer a lista de profissonais cadastrados
+    if (profissional) {
+      // não add profissional já inserido
+      if (!this.profissionais.find(p => p.nome == profissional.nome)) {
+        this.profissionais.push(profissional);
+        this.profisionalInput.nativeElement.value = '';
+        this.profissionaisCtrl.setValue(null);
       }
-    )
-
+    }
   }
 
   private _filter(value: string | Profissional): Profissional[] {
@@ -179,11 +168,25 @@ export class OrdemFormComponent implements OnInit {
   addServicos() {
     const servicos = this.form.value.servicos;
 
-    servicos.forEach((desc: any) => {
-      const servicoSelecionado = { descricao: desc, quantidade: 0, und: 'm²' };
-      this.servicosSelecionados.push(servicoSelecionado);
-    })
+    if (servicos) {
 
+      servicos.forEach((desc: string) => {
+
+        const servicoSelecionado = this.allServicos.find(s => s.descricao == desc);
+
+        if (servicoSelecionado) {
+
+          // só add se o serviço ainda não estiver sido adicionado
+          if (!this.servicosSelecionados.find(s => s.descricao == servicoSelecionado.descricao)) {
+
+            const itemServico = {id: servicoSelecionado.id, descricao: servicoSelecionado.descricao, und: servicoSelecionado.und, quantidade: 0}
+
+            this.servicosSelecionados.push(itemServico);
+          }
+        }
+      })
+
+    }
 
     this.table.renderRows();
     this.form.patchValue({

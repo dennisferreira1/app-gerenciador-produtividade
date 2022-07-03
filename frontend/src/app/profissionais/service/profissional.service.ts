@@ -8,7 +8,7 @@ import { Profissional } from './../model/profissional';
 })
 export class ProfissionalService {
 
-  private readonly API = 'http://localhost:3000';
+  private readonly API = '/api';
 
   constructor(private http: HttpClient) { }
 
