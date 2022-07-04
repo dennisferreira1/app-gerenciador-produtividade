@@ -48,4 +48,9 @@ public class ProfissionalController {
         this.profissionalService.excluirProfissional(id);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<Profissional> buscarProfissionalPorId(@PathVariable Long id) {
+        return ResponseEntity.status(HttpStatus.OK).body(this.profissionalService.buscarProfissionalPorId(id));
+    }
+
 }

@@ -37,5 +37,9 @@ public class ProfissionalService {
         Profissional profissionalBuscado = profissionalRepository.findById(id).orElseThrow();
         profissionalRepository.delete(profissionalBuscado);
     }
+
+    public Profissional buscarProfissionalPorId(Long id) {
+        return profissionalRepository.findById(id).orElseThrow();
+    }
     
 }
