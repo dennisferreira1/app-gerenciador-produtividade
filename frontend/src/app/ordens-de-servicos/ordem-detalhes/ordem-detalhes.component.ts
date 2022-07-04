@@ -1,4 +1,5 @@
 import { MatDialog } from '@angular/material/dialog';
+import { OrdemDeServico } from './../model/ordem-de-servico';
 import { OrdemService } from './../service/ordem.service';
 
 import { Location } from '@angular/common';
@@ -8,7 +9,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { DeleteDialogComponent } from 'src/app/shared/components/delete-dialog/delete-dialog.component';
 import { ErrorDialogComponent } from 'src/app/shared/components/error-dialog/error-dialog.component';
 import { SuccessDialogComponent } from 'src/app/shared/components/success-dialog/success-dialog.component';
-import { OrdemDeServico } from '../model/ordem-de-servico';
 
 @Component({
   selector: 'app-ordem-detalhes',
@@ -19,7 +19,12 @@ export class OrdemDetalhesComponent implements OnInit {
 
   displayedColumns: string[] = ['descricao', 'und', 'quantidade'];
 
-  ordemDeServico!: OrdemDeServico;
+  ordemDeServico = {
+    descricao: '',
+    numero: '',
+    profissionais: [],
+    servicos: [],
+  } as unknown as OrdemDeServico
 
   constructor(
     private router: Router,
@@ -28,13 +33,11 @@ export class OrdemDetalhesComponent implements OnInit {
     private location: Location,
     private dialog: MatDialog,
     private _snackBar: MatSnackBar
-  ) {
-
-    const id = this.activatedRoute.snapshot.params['id'];
-    this.ordemService.getOrdemById(id).subscribe((dados: OrdemDeServico) => this.ordemDeServico = dados);
-  }
+  ) {}
 
   ngOnInit(): void {
+    const id = this.activatedRoute.snapshot.params['id'];
+    this.ordemService.getOrdemById(id).subscribe((dados: OrdemDeServico) => this.ordemDeServico = dados);
   }
 
   editar() {
