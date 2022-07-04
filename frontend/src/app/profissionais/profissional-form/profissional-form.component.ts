@@ -1,6 +1,6 @@
 import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -33,8 +33,8 @@ export class ProfissionalFormComponent implements OnInit {
 
      this.form = this.formBuilder.group({
        id: [profissional.id],
-       nome: [profissional.nome],
-       profissao: [profissional.profissao]
+       nome: [profissional.nome, Validators.required],
+       profissao: [profissional.profissao, Validators.required]
      })
 
   }
@@ -42,17 +42,22 @@ export class ProfissionalFormComponent implements OnInit {
   ngOnInit(): void {}
 
   salvar() {
-    const id = this.form.value.id;
-    if(id == null) {
-      this.profissionalService.salvar(this.form.value).subscribe(
-        dados => this.openDialogSuccess(),
-        error => this.openDialogError("Erro ao salvar dados do profissional!")
-      )
-    } else {
-      this.profissionalService.atualizar(this.form.value).subscribe(
-        dados => this.openDialogSuccess(),
-        error => this.openDialogError("Erro ao atualizar dados do profissional!")
-      )
+
+    if (this.form.valid) {
+
+      const id = this.form.value.id;
+      if(id == null) {
+        this.profissionalService.salvar(this.form.value).subscribe(
+          dados => this.openDialogSuccess(),
+          error => this.openDialogError("Erro ao salvar dados do profissional!")
+        )
+      } else {
+        this.profissionalService.atualizar(this.form.value).subscribe(
+          dados => this.openDialogSuccess(),
+          error => this.openDialogError("Erro ao atualizar dados do profissional!")
+        )
+      }
+      
     }
   }
 

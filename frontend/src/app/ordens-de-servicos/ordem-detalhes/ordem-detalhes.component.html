@@ -9,19 +9,19 @@
 
       <div mat-subheader>Requisição Manutenção</div>
       <mat-list-item>
-        <div mat-line>{{ordemDeServico.numero}}</div>
+        <div mat-line>{{ordemDeServico?.numero}}</div>
       </mat-list-item>
       <mat-divider></mat-divider>
 
       <div mat-subheader>Descrição</div>
       <div class="descricao">
-       {{ordemDeServico.descricao}}
+       {{ordemDeServico?.descricao}}
       </div>
       <mat-divider></mat-divider>
 
       <div mat-subheader>Profissionais</div>
       <mat-list-item>
-        <mat-chip-list *ngFor="let profissional of ordemDeServico.profissionais">
+        <mat-chip-list *ngFor="let profissional of ordemDeServico?.profissionais">
           <mat-chip>{{profissional.nome}}</mat-chip>
         </mat-chip-list>
       </mat-list-item>

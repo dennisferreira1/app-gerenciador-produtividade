@@ -69,9 +69,9 @@ export class OrdemFormComponent implements OnInit {
     const ordem: OrdemDeServico = this.activatedRoute.snapshot.data['ordem'];
 
     this.form = this.formBuilder.group({
-      id: [ordem.id],
-      numero: [ordem.numero],
-      descricao: [ordem.descricao],
+      id: [ordem?.id],
+      numero: [ordem?.numero],
+      descricao: [ordem?.descricao],
       servicos: [null]
     })
 
