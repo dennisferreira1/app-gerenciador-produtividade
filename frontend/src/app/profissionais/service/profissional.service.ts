@@ -8,7 +8,7 @@ import { Profissional } from './../model/profissional';
 })
 export class ProfissionalService {
 
-  private readonly API = 'https://gerenciador-produtividade.herokuapp.com';
+  private readonly API = 'https://gerenciador-produtividade.herokuapp.com/api';
 
   constructor(private http: HttpClient) { }
 
