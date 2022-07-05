@@ -10,6 +10,6 @@ export class ServicoService {
   constructor(private http: HttpClient) { }
 
   getServicos() {
-    return this.http.get<Servico[]>('assets/servicos.json');
+    return this.http.get<Servico[]>('https://gerenciador-produtividade.herokuapp.com/');
   }
 }
