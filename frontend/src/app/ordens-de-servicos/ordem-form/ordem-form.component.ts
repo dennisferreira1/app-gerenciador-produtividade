@@ -2,7 +2,7 @@ import { ServicoService } from './../../servicos/servico.service';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { Location } from '@angular/common';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { MatDialog } from '@angular/material/dialog';
@@ -35,7 +35,7 @@ export class OrdemFormComponent implements OnInit {
 
   separatorKeysCodes: number[] = [ENTER, COMMA];
 
-  profissionaisCtrl = new FormControl('');
+  profissionaisCtrl = new FormControl('', Validators.required);
 
   @ViewChild('profisionalInput') profisionalInput!: ElementRef<HTMLInputElement>;
 
@@ -70,8 +70,8 @@ export class OrdemFormComponent implements OnInit {
 
     this.form = this.formBuilder.group({
       id: [ordem?.id],
-      numero: [ordem?.numero],
-      descricao: [ordem?.descricao],
+      numero: [ordem?.numero, Validators.required],
+      descricao: [ordem?.descricao, Validators.required],
       servicos: [null]
     })
 
@@ -83,6 +83,14 @@ export class OrdemFormComponent implements OnInit {
   }
 
   salvar() {
+    if(this.profissionais.length == 0) {
+      this.openDialogError("É necessário informar no mínimo 1 profissional!")
+      return;
+    }
+    if(this.servicosSelecionados.length == 0) {
+      this.openDialogError("É necessário informar no mínimo 1 serviço!")
+      return;
+    }
 
     const ordem = {
       id: this.form.value.id,
@@ -92,17 +100,21 @@ export class OrdemFormComponent implements OnInit {
       servicos: this.servicosSelecionados
     }
 
-    if(ordem.id == null) {
-      this.ordemService.salvar(ordem).subscribe(
-        dados => this.openDialogSuccess(),
-        error => this.openDialogError("Erro ao salvar ordem de serviço!")
-      )
-    } else {
-      this.ordemService.atualizar(ordem).subscribe(
-        dados => this.openDialogSuccess(),
-        error => this.openDialogError("Erro ao atualizar dados da ordem de serviço!")
-      )
+    if(this.form.valid) {
+
+      if(ordem.id == null) {
+        this.ordemService.salvar(ordem).subscribe(
+          dados => this.openDialogSuccess(),
+          error => this.openDialogError("Erro ao salvar ordem de serviço!")
+        )
+      } else {
+        this.ordemService.atualizar(ordem).subscribe(
+          dados => this.openDialogSuccess(),
+          error => this.openDialogError("Erro ao atualizar dados da ordem de serviço!")
+        )
+      }
     }
+
   }
 
   cancelar() {
