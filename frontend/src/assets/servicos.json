@@ -1,4 +1,6 @@
 [
   { "id": 1, "descricao": "Pintura em parede", "und": "m²" },
-  { "id": 2, "descricao": "Pintura em teto", "und": "m²" }
+  { "id": 2, "descricao": "Pintura em teto", "und": "m²" },
+  { "id": 3, "descricao": "Substituição de porta", "und": "und" },
+  { "id": 4, "descricao": "Substituição de fechadura", "und": "und" }
 ]

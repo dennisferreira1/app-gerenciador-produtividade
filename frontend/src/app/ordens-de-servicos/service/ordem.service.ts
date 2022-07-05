@@ -8,7 +8,7 @@ import { OrdemDeServico } from '../model/ordem-de-servico';
   providedIn: 'root'
 })
 export class OrdemService {
-  private readonly API = 'https://gerenciador-produtividade.herokuapp.com/';
+  private readonly API = 'https://gerenciador-produtividade.herokuapp.com';
 
   constructor(private http: HttpClient) { }
 
