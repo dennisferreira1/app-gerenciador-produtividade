@@ -21,10 +21,10 @@
       <ng-container matColumnDef="acoes">
         <th mat-header-cell *matHeaderCellDef class="lg"> Ações </th>
         <mat-cell *matCellDef="let profissional">
-          <button mat-icon-button color="primary" aria-label="Editar curso" class="lg">
+          <button (click)="editar(profissional.id)" mat-icon-button color="primary" aria-label="Editar curso" class="lg">
             <mat-icon>edit</mat-icon>
           </button>
-          <button mat-icon-button color="warn" aria-label="Deletar curso" class="lg">
+          <button (click)="excluir(profissional)" mat-icon-button color="warn" aria-label="Deletar curso" class="lg">
             <mat-icon>delete</mat-icon>
           </button>
           <button mat-icon-button color="basic" aria-label="" class="lg">
