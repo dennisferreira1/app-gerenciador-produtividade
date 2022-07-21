@@ -3,7 +3,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
-import { OrdemDeServico } from './../model/ordem-de-servico';
+import { OrdemDeServico, OrdemDeServicoTable } from './../model/ordem-de-servico';
 import { OrdemService } from './../service/ordem.service';
 
 /**
@@ -16,7 +16,9 @@ import { OrdemService } from './../service/ordem.service';
 })
 export class OrdemListComponent implements AfterViewInit {
   displayedColumns: string[] = ['numero', 'descricao', 'profissional'];
-  dataSource: MatTableDataSource<OrdemDeServico> = new MatTableDataSource();
+  dataSource: MatTableDataSource<OrdemDeServicoTable> = new MatTableDataSource();
+
+  ordemDeServicoTable: OrdemDeServicoTable[] = [];
 
   @ViewChild(MatPaginator)
   paginator!: MatPaginator;
@@ -32,8 +34,19 @@ export class OrdemListComponent implements AfterViewInit {
 
     this.ordemService.buscarOrdens().subscribe(
       (dados: OrdemDeServico[]) => {
+
+        // Para facilitar a exibição dos dados das ordens de serviços na tabela é usado o objeto "OrdemDeServicoTable" que é preenchido com os dados do objeto "OrdemDeServico"
+        for(let dado of dados){
+          this.ordemDeServicoTable.push({
+            id: dado.id,
+            numero: dado.numero,
+            descricao: dado.descricao,
+            profissionais: dado.profissionais.map(p => p.nome).toString()
+          })
+        }
+
         // Assign the data to the data source for the table to render
-        this.dataSource = new MatTableDataSource(dados);
+        this.dataSource = new MatTableDataSource(this.ordemDeServicoTable);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
       }

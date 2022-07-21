@@ -14,3 +14,10 @@ export interface OrdemDeServico {
   profissionais: Profissional[],
   servicos: ItemServico[]
 }
+
+export interface OrdemDeServicoTable {
+  id: number
+  numero: string,
+  descricao: string,
+  profissionais: string,
+}

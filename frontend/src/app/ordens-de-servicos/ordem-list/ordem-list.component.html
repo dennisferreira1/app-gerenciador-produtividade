@@ -28,7 +28,7 @@
       <!-- Name Column -->
       <ng-container matColumnDef="profissional">
         <th mat-header-cell *matHeaderCellDef mat-sort-header class="td-profissional"> Profissional </th>
-        <td mat-cell class="td-profissional" *matCellDef="let row"> {{row.profissionais[0].nome}} </td>
+        <td mat-cell class="td-profissional" *matCellDef="let row">{{row.profissionais}}</td>
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
