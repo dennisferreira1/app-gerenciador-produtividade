@@ -1,4 +1,3 @@
-import { ServicoService } from './../../servicos/servico.service';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { Location } from '@angular/common';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
@@ -11,12 +10,14 @@ import { MatTable } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
 import { map, startWith } from 'rxjs';
 import { ProfissionalService } from 'src/app/profissionais/service/profissional.service';
+import { Servico } from 'src/app/servicos/servico';
 import { ErrorDialogComponent } from 'src/app/shared/components/error-dialog/error-dialog.component';
 import { SuccessDialogComponent } from 'src/app/shared/components/success-dialog/success-dialog.component';
-import { ItemServico, OrdemDeServico } from '../model/ordem-de-servico';
+import { OrdemDeServico } from '../model/ordem-de-servico';
 import { Profissional } from './../../profissionais/model/profissional';
+import { ServicoService } from './../../servicos/servico.service';
+import { ItemServico } from './../model/ordem-de-servico';
 import { OrdemService } from './../service/ordem.service';
-import { Servico } from 'src/app/servicos/servico';
 
 @Component({
   selector: 'app-ordem-form',
@@ -191,7 +192,7 @@ export class OrdemFormComponent implements OnInit {
           // só add se o serviço ainda não estiver sido adicionado
           if (!this.servicosSelecionados.find(s => s.descricao == servicoSelecionado.descricao)) {
 
-            const itemServico = {id: servicoSelecionado.id, descricao: servicoSelecionado.descricao, und: servicoSelecionado.und, quantidade: 0}
+            const itemServico = {id: servicoSelecionado.id, descricao: servicoSelecionado.descricao, und: servicoSelecionado.und, quantidade: 1}
 
             this.servicosSelecionados.push(itemServico);
           }
@@ -226,6 +227,17 @@ export class OrdemFormComponent implements OnInit {
   openDialogSuccess() {
     this._snackBar.openFromComponent(SuccessDialogComponent, {duration: 2000, verticalPosition: 'top'});
     this.cancelar();
+  }
+
+  addQuantitativo(itemServico: ItemServico, inptuQtde: any) {
+    const quantidade = inptuQtde.value;
+
+    this.servicosSelecionados.forEach(item => {
+      if(item.id == itemServico.id) {
+        item.quantidade = quantidade;
+      }
+    })
+
   }
 
 }

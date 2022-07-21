@@ -70,8 +70,8 @@
           <!-- Name Column -->
           <ng-container matColumnDef="quantidade">
             <th mat-header-cell *matHeaderCellDef mat-sort-header class="td-qtde"> Quantidade </th>
-            <td mat-cell class="td-qtde" *matCellDef="let row">
-              <input matInput type="number" value={{row.quantidade}}>
+            <td mat-cell class="td-qtde" *matCellDef="let row" (change)="addQuantitativo(row, qtde)">
+              <input #qtde matInput type="number" value={{row.quantidade}}>
             </td>
           </ng-container>
 
