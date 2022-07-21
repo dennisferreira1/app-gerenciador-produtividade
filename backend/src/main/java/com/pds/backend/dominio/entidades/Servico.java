@@ -1,10 +1,12 @@
 package com.pds.backend.dominio.entidades;
 
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Servico {
@@ -17,6 +19,9 @@ public class Servico {
 
     private String und;
 
+    @OneToMany(mappedBy = "servico")
+    private List<Quantitativo> quantitativos;
+
     public Servico() {
     }
 
@@ -25,9 +30,7 @@ public class Servico {
         this.descricao = descricao;
         this.und = und;
     }
-
-    @OneToOne(mappedBy = "servico")
-    private Quantitativo quantitativo;
+    
 
     public Long getId() {
         return id;
@@ -80,6 +83,12 @@ public class Servico {
         return "Servico [descricao=" + descricao + ", id=" + id + ", und=" + und + "]";
     }
 
-    
+    public List<Quantitativo> getQuantitativo() {
+        return quantitativos;
+    }
+
+    public void setQuantitativo(List<Quantitativo> quantitativo) {
+        this.quantitativos = quantitativo;
+    }
 
 }
