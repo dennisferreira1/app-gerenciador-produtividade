@@ -46,7 +46,7 @@
           <!-- Name Column -->
           <ng-container matColumnDef="quantidade">
             <th mat-header-cell *matHeaderCellDef mat-sort-header class="td-sm"> Quantidade </th>
-            <td mat-cell class="td-sm" *matCellDef="let row"> {{row.quantidade}} </td>
+            <td mat-cell class="td-sm" *matCellDef="let row"> {{row.quantidade | number:'1.2-2'}} </td>
           </ng-container>
 
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
