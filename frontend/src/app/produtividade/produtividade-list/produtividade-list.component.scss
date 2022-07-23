@@ -1,0 +1,36 @@
+.mat-h2 {
+  font: 500 20px/32px Roboto, "Helvetica Neue", sans-serif;
+  letter-spacing: normal;
+  margin: 0 0 0px;
+}
+
+table {
+  width: 100%;
+}
+
+.mat-form-field {
+  font-size: 14px;
+  width: 100%;
+}
+
+td, th {
+  width: 25%;
+}
+
+.space-around {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.td-id {
+  max-width: 5%;
+}
+
+.td-profissional {
+  max-width: 10%;
+}
+
+tr.mat-row {
+  cursor: pointer;
+}

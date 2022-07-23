@@ -1,4 +1,3 @@
-import { OrdensDeServicosModule } from './ordens-de-servicos/ordens-de-servicos.module';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { DashboardComponent } from './dashboard/dashboard.component';
@@ -11,6 +10,9 @@ const routes: Routes = [
   },
   { path: 'ordens-de-servicos',
     loadChildren: () => import('./ordens-de-servicos/ordens-de-servicos.module').then(m => m.OrdensDeServicosModule)
+  },
+  { path: 'produtividade',
+    loadChildren: () => import('./produtividade/produtividade.module').then(m => m.ProdutividadeModule)
   }
 ];
 
