@@ -19,16 +19,19 @@ public class Servico {
 
     private String und;
 
+    private Double horasParaExecutar1Und;
+
     @OneToMany(mappedBy = "servico")
     private List<Quantitativo> quantitativos;
 
     public Servico() {
     }
 
-    public Servico(Long id, String descricao, String und) {
+    public Servico(Long id, String descricao, String und, Double horasParaExecutar1Und) {
         this.id = id;
         this.descricao = descricao;
         this.und = und;
+        this.horasParaExecutar1Und = horasParaExecutar1Und;
     }
     
 
@@ -51,6 +54,14 @@ public class Servico {
     }
     public void setUnd(String und) {
         this.und = und;
+    }
+
+    public Double getHorasParaExecutar1Und() {
+        return horasParaExecutar1Und;
+    }
+
+    public void setHorasParaExecutar1Und(Double horasParaExecutar1Und) {
+        this.horasParaExecutar1Und = horasParaExecutar1Und;
     }
 
     @Override

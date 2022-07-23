@@ -1,7 +1,8 @@
 [
-  { "id": 1, "descricao": "Pintura em parede", "und": "m²" },
-  { "id": 2, "descricao": "Pintura em teto", "und": "m²" },
-  { "id": 3, "descricao": "Pintura em porta", "und": "m²" },
-  { "id": 4, "descricao": "Substituição de porta", "und": "und" },
-  { "id": 5, "descricao": "Substituição de fechadura", "und": "und" }
+  { "id": 1, "descricao": "Pintura em parede", "und": "m²", "horasParaExecutar1Und": 0.5 },
+  { "id": 2, "descricao": "Pintura em teto", "und": "m²", "horasParaExecutar1Und": 0.7 },
+  { "id": 3, "descricao": "Pintura em porta", "und": "m²", "horasParaExecutar1Und": 0.9 },
+  { "id": 4, "descricao": "Substituição de porta", "und": "und", "horasParaExecutar1Und": 2.0 },
+  { "id": 5, "descricao": "Substituição de fechadura", "und": "und", "horasParaExecutar1Und": 1.0 },
+  { "id": 6, "descricao": "Substituição de torneira", "und": "und", "horasParaExecutar1Und": 0.5 }
 ]

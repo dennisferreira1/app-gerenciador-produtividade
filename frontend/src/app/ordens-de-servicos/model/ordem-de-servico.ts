@@ -4,6 +4,7 @@ export interface ItemServico {
   id: number,
   descricao: string,
   und: string,
+  horasParaExecutar1Und: number,
   quantidade: number
 }
 
@@ -12,7 +13,8 @@ export interface OrdemDeServico {
   numero: string,
   descricao: string,
   profissionais: Profissional[],
-  servicos: ItemServico[]
+  servicos: ItemServico[],
+  totalHorasExecucao?: number
 }
 
 export interface OrdemDeServicoTable {

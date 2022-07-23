@@ -10,6 +10,7 @@ public class OrdemServicoDTO {
     private String descricao;
     private List<ServicoDTO> servicos;
     private List<Profissional> profissionais;
+    private Double totalHorasExecucao;
 
     public Long getId() {
         return id;
@@ -40,6 +41,12 @@ public class OrdemServicoDTO {
     }
     public void setProfissionais(List<Profissional> profissionais) {
         this.profissionais = profissionais;
+    }
+    public Double getTotalHorasExecucao() {
+        return totalHorasExecucao;
+    }
+    public void setTotalHorasExecucao(Double totalHorasExecucao) {
+        this.totalHorasExecucao = totalHorasExecucao;
     }
 
 }

@@ -6,15 +6,17 @@ public class ServicoDTO {
     private String descricao;
     private String und;
     private Double quantidade;
+    private Double horasParaExecutar1Und;
     
     public ServicoDTO() {
     }
 
-    public ServicoDTO(Long id, String descricao, Double quantidade, String und) {
+    public ServicoDTO(Long id, String descricao, Double quantidade, String und, Double horasParaExecutar1Und) {
         this.id = id;
         this.descricao = descricao;
         this.und = und;
         this.quantidade = quantidade;
+        this.horasParaExecutar1Und = horasParaExecutar1Und;
     }
     
     public Long getId() {
@@ -42,6 +44,12 @@ public class ServicoDTO {
         this.quantidade = quantidade;
     }
 
-    
+    public Double getHorasParaExecutar1Und() {
+        return horasParaExecutar1Und;
+    }
+
+    public void setHorasParaExecutar1Und(Double horasParaExecutar1Und) {
+        this.horasParaExecutar1Und = horasParaExecutar1Und;
+    }
 
 }

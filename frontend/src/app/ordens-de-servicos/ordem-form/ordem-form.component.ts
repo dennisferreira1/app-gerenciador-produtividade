@@ -98,7 +98,7 @@ export class OrdemFormComponent implements OnInit {
       numero: this.form.value.numero,
       descricao: this.form.value.descricao,
       profissionais: this.profissionais,
-      servicos: this.servicosSelecionados
+      servicos: this.servicosSelecionados,
     }
 
     if(this.form.valid) {
@@ -192,7 +192,7 @@ export class OrdemFormComponent implements OnInit {
           // só add se o serviço ainda não estiver sido adicionado
           if (!this.servicosSelecionados.find(s => s.descricao == servicoSelecionado.descricao)) {
 
-            const itemServico = {id: servicoSelecionado.id, descricao: servicoSelecionado.descricao, und: servicoSelecionado.und, quantidade: 1}
+            const itemServico = {id: servicoSelecionado.id, descricao: servicoSelecionado.descricao, und: servicoSelecionado.und, horasParaExecutar1Und: servicoSelecionado.horasParaExecutar1Und, quantidade: 1}
 
             this.servicosSelecionados.push(itemServico);
           }

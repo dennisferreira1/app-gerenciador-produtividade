@@ -7,6 +7,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 
 @Entity
 public class Quantitativo {
@@ -15,11 +17,13 @@ public class Quantitativo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private Double quantidade;
+
+    private Double totalDeHorasExecucao= 0.0;
+
     @OneToOne
     @JoinColumn(name = "servico_id")
     private Servico servico;
-    
-    private Double quantidade;
 
     @ManyToOne
     private OrdemDeServico ordem;
@@ -30,6 +34,16 @@ public class Quantitativo {
     public Quantitativo(Servico servico, Double quantidade) {
         this.servico = servico;
         this.quantidade = quantidade;
+    }
+
+    @PrePersist
+    public void prePersist() {
+        this.totalDeHorasExecucao = servico.getHorasParaExecutar1Und() * quantidade;
+    }
+
+    @PreUpdate
+    public void preUpdate() {
+        prePersist();
     }
 
     public Long getId() {
@@ -62,6 +76,14 @@ public class Quantitativo {
 
     public void setOrdem(OrdemDeServico ordem) {
         this.ordem = ordem;
+    }
+
+    public Double getTotalDeHorasExecucao() {
+        return totalDeHorasExecucao;
+    }
+
+    public void setTotalDeHorasExecucao(Double totalDeHorasExecucao) {
+        this.totalDeHorasExecucao = totalDeHorasExecucao;
     }
 
     @Override

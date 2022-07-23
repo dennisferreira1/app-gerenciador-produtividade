@@ -22,6 +22,8 @@ public class OrdemDeServico {
 
     private String numeroRequisicao;
 
+    private Double totalHorasExecucao= 0.0;
+
     @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private ExecucaoOrdemServico execucaoOrdemServico;
 
@@ -73,6 +75,14 @@ public class OrdemDeServico {
         this.quantitativos = quantitativos;
     }
 
+    public Double getTotalHorasExecucao() {
+        return totalHorasExecucao;
+    }
+
+    public void setTotalHorasExecucao(Double totalHorasExecucao) {
+        this.totalHorasExecucao = totalHorasExecucao;
+    }
+
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -102,5 +112,6 @@ public class OrdemDeServico {
     public String toString() {
         return "OrdemDeServico [descricao=" + descricao + ", execucaoOrdemServico=" + execucaoOrdemServico + ", id="
                 + id + ", numeroRequisicao=" + numeroRequisicao + ", quantitativos=" + quantitativos + "]";
-    }  
+    }
+
 }
