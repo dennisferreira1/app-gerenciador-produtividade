@@ -53,6 +53,10 @@ public class OrdemController {
     public ResponseEntity<OrdemServicoDTO> buscarOrdemPorId(@PathVariable Long id) {
         return ResponseEntity.status(HttpStatus.OK).body(this.ordemService.buscarOrdemPorId(id));
     }
-    
+
+    @GetMapping("/profissional-id/{profissionalId}")
+    public ResponseEntity<List<OrdemServicoDTO>> buscarOrdensPorProfissional(@PathVariable Long profissionalId) {
+        return ResponseEntity.ok(ordemService.buscarOrdensPorProfissional(profissionalId));
+    }
 
 }

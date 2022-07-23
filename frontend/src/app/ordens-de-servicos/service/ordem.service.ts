@@ -26,6 +26,12 @@ export class OrdemService {
     );
   }
 
+  buscarOrdensPorProfissional(profissionalId: number): Observable<OrdemDeServico[]> {
+    return this.http.get<OrdemDeServico[]>(`${this.API}/ordens-de-servicos/profissional-id/${profissionalId}`).pipe(
+      first()
+    );
+  }
+
   buscarOrdens(): Observable<OrdemDeServico[]> {
     return this.http.get<OrdemDeServico[]>(`${this.API}/ordens-de-servicos`).pipe(
       first()

@@ -1,6 +1,7 @@
 package com.pds.backend.servicos;
 
 import java.util.List;
+import java.util.Objects;
 
 import org.springframework.stereotype.Service;
 
@@ -23,9 +24,9 @@ public class OrdemService {
 
     public List<OrdemServicoDTO> buscarOrdens() {
         return ordemRepository.findAll()
-                    .stream()
-                    .map((OrdemDeServico ordem) -> convertParaDTO(ordem))
-                    .toList();
+                .stream()
+                .map((OrdemDeServico ordem) -> convertParaDTO(ordem))
+                .toList();
     }
 
     public OrdemServicoDTO cadastrarOrdem(OrdemServicoDTO ordemDTO) {
@@ -36,38 +37,48 @@ public class OrdemService {
 
         var quantitativos = ordemDTO.getServicos()
                 .stream()
-                .map((ServicoDTO servicoDTO) -> new Quantitativo(new Servico(servicoDTO.getId(), servicoDTO.getDescricao(), servicoDTO.getUnd()), servicoDTO.getQuantidade()))
+                .map((ServicoDTO servicoDTO) -> new Quantitativo(
+                        new Servico(servicoDTO.getId(), servicoDTO.getDescricao(), servicoDTO.getUnd(), servicoDTO.getHorasParaExecutar1Und()),
+                        servicoDTO.getQuantidade()))
                 .toList();
-        
-        for(Quantitativo q : quantitativos) {
+
+        var totalHorasQuantitativos = 0.0;
+        for (Quantitativo q : quantitativos) {
             ordemServico.addQuantitavo(q);
+            totalHorasQuantitativos += q.getServico().getHorasParaExecutar1Und() * q.getQuantidade();
         }
-        
+
+        ordemServico.setTotalHorasExecucao(totalHorasQuantitativos);
         ordemServico = ordemRepository.saveAndFlush(ordemServico);
 
         return convertParaDTO(ordemServico);
     }
 
-
     public OrdemServicoDTO atualizarOrdem(Long id, OrdemServicoDTO ordemDTO) {
         OrdemDeServico ordemBuscada = ordemRepository.findById(id).orElseThrow();
-        
+
         ordemBuscada.setDescricao(ordemDTO.getDescricao());
         ordemBuscada.setNumeroRequisicao(ordemDTO.getNumero());
         ordemBuscada.getExecucaoOrdemServico().setProfissionais(ordemDTO.getProfissionais());
-        
+
         var quantitativos = ordemDTO.getServicos()
-        .stream()
-        .map((ServicoDTO servicoDTO) -> new Quantitativo(new Servico(servicoDTO.getId(), servicoDTO.getDescricao(), servicoDTO.getUnd()), servicoDTO.getQuantidade()))
-        .toList();
+                .stream()
+                .map((ServicoDTO servicoDTO) -> new Quantitativo(
+                        new Servico(servicoDTO.getId(), servicoDTO.getDescricao(), servicoDTO.getUnd(), servicoDTO.getHorasParaExecutar1Und()),
+                        servicoDTO.getQuantidade()))
+                .toList();
 
         // remove os quantitativos existentes
         ordemBuscada.getQuantitativos().clear();
 
+        var totalHorasQuantitativos = 0.0;
         // insere os novos quantitativos
-        for(Quantitativo q : quantitativos) {
+        for (Quantitativo q : quantitativos) {
             ordemBuscada.addQuantitavo(q);
+            totalHorasQuantitativos += q.getServico().getHorasParaExecutar1Und() * q.getQuantidade();
         }
+
+        ordemBuscada.setTotalHorasExecucao(totalHorasQuantitativos);
 
         return convertParaDTO(ordemRepository.saveAndFlush(ordemBuscada));
     }
@@ -81,6 +92,23 @@ public class OrdemService {
         return convertParaDTO(ordemRepository.findById(id).orElseThrow());
     }
 
+    public List<OrdemServicoDTO> buscarOrdensPorProfissional(Long profissionalId) {
+        return ordemRepository.findAll()
+                .stream()
+                .filter((os) -> {
+                    var profissionais = os.getExecucaoOrdemServico().getProfissionais();
+                    var retorno = false;
+                    for(var p : profissionais) {
+                        if (Objects.equals(p.getId(), profissionalId)) {
+                            retorno = true;
+                        }
+                    }
+                    return retorno;
+                })
+                .map((OrdemDeServico ordem) -> convertParaDTO(ordem))
+                .toList();
+    }
+
     private OrdemServicoDTO convertParaDTO(OrdemDeServico ordemServico) {
         var dto = new OrdemServicoDTO();
         dto.setId(ordemServico.getId());
@@ -88,10 +116,11 @@ public class OrdemService {
         dto.setDescricao(ordemServico.getDescricao());
         dto.setProfissionais(ordemServico.getExecucaoOrdemServico().getProfissionais());
         dto.setServicos(ordemServico.getQuantitativos()
-            .stream()
-            .map((Quantitativo q) -> new ServicoDTO(q.getServico().getId(),q.getServico().getDescricao(),q.getQuantidade(), q.getServico().getUnd()))
-            .toList()
-        );
+                .stream()
+                .map((Quantitativo q) -> new ServicoDTO(q.getServico().getId(), q.getServico().getDescricao(),
+                        q.getQuantidade(), q.getServico().getUnd(), q.getServico().getHorasParaExecutar1Und()))
+                .toList());
+        dto.setTotalHorasExecucao(ordemServico.getTotalHorasExecucao());
 
         return dto;
     }
