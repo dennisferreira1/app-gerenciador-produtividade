@@ -1,6 +1,7 @@
+import { Profissional } from "src/app/profissionais/model/profissional"
+
 export interface ProdutividadeOrderTable {
   posicao?: number
-  profissional: string,
-  profissao: string,
+  profissional: Profissional,
   totalDeHoras: number
 }

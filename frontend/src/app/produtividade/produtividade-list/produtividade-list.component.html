@@ -17,16 +17,16 @@
 
       <ng-container matColumnDef="profissional">
         <th mat-header-cell *matHeaderCellDef mat-sort-header class="td-profissional"> Profissional </th>
-        <td mat-cell class="td-profissional" *matCellDef="let row">{{row.profissional}}</td>
+        <td mat-cell class="td-profissional" *matCellDef="let row">{{row.profissional.nome}}</td>
       </ng-container>
 
       <ng-container matColumnDef="profissao">
         <th mat-header-cell *matHeaderCellDef mat-sort-header class="td-profissional"> Profissão </th>
-        <td mat-cell class="td-profissional" *matCellDef="let row">{{row.profissao}}</td>
+        <td mat-cell class="td-profissional" *matCellDef="let row">{{row.profissional.profissao}}</td>
       </ng-container>
 
       <ng-container matColumnDef="horas">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Total de horas de Serviços </th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Horas de Serviços </th>
         <td mat-cell *matCellDef="let row"> {{row.totalDeHoras | number:'1.2-2'}} </td>
       </ng-container>
 

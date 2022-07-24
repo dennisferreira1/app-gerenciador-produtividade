@@ -20,11 +20,13 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { ProdutividadeDetalhesComponent } from './produtividade-detalhes/produtividade-detalhes.component';
 
 
 @NgModule({
   declarations: [
-    ProdutividadeListComponent
+    ProdutividadeListComponent,
+    ProdutividadeDetalhesComponent
   ],
   imports: [
     CommonModule,

@@ -54,8 +54,7 @@ export class ProdutividadeListComponent implements AfterViewInit {
                 totalHoras += ordem.totalHorasExecucao || 0;
               }
               this.listProdutividadeOrdenada.push({
-                profissional: p.nome,
-                profissao: p.profissao,
+                profissional: p,
                 totalDeHoras: totalHoras,
               });
 
@@ -87,8 +86,9 @@ export class ProdutividadeListComponent implements AfterViewInit {
     }
   }
 
-  detalhes(profissionalId: any) {
-    this.router.navigate(['detalhes', profissionalId], { relativeTo: this.activatedRoute });
+  detalhes(row: any) {
+    const profissionalId = row.profissional.id;
+    this.router.navigate(['profissional', profissionalId], { relativeTo: this.activatedRoute });
   }
 
 }
