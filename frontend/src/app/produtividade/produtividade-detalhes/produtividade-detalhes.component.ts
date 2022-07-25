@@ -64,19 +64,13 @@ export class ProdutividadeDetalhesComponent implements OnInit {
         let ordensPorCategoria = ordens.filter(o => o.profissionais.some(P => P.profissao == this.profissional.profissao));
 
         let totalHorasOrdens = 0;
-        
+
         ordensPorCategoria.forEach(o => {
           totalHorasOrdens += o.totalHorasExecucao! * o.profissionais.length;
         })
 
-        console.log(totalHorasOrdens);
-
-
         this.produtividadeDetalhes.percentual = this.produtividadeDetalhes.totalDeHoras / totalHorasOrdens;
       })
-
-    console.log(this.produtividadeDetalhes.servicos);
-
   }
 
   ngOnInit(): void {
