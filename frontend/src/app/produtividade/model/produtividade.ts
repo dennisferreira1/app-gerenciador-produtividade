@@ -5,3 +5,16 @@ export interface ProdutividadeOrderTable {
   profissional: Profissional,
   totalDeHoras: number
 }
+
+export interface ServicoDetalhes {
+  servico: string
+  und: string,
+  qtde: number,
+  horas: number
+}
+
+export interface ProdutividadeDetalhes {
+  servicos: ServicoDetalhes[],
+  totalDeHoras: number,
+  percentual: number
+}

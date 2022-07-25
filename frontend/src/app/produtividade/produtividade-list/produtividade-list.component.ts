@@ -9,7 +9,6 @@ import { Profissional } from 'src/app/profissionais/model/profissional';
 import { } from '../model/produtividade';
 import { ProfissionalService } from './../../profissionais/service/profissional.service';
 import { ProdutividadeOrderTable } from './../model/produtividade';
-import { ProdutividadeService } from './../service/produtividade.service';
 
 @Component({
   selector: 'app-produtividade-list',
@@ -34,7 +33,6 @@ export class ProdutividadeListComponent implements AfterViewInit {
     private activatedRoute: ActivatedRoute,
     private ordemService: OrdemService,
     private profissionalService: ProfissionalService,
-    private produtividadeService: ProdutividadeService
   ) {
 
     this.listarProdutividades();
