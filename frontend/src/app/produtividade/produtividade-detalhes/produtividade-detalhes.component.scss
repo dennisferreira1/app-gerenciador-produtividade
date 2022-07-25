@@ -16,16 +16,36 @@ mat-card {
 }
 
 table {
+  display: table;
   margin-top: 20px;
   width: 100%;
 }
 
+th {
+  font-weight: 600;
+}
+
 td, th {
+  display: table-cell;
   width: 25%;
+  text-align: center;
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+  border-bottom-color: grey;
+  font-size: 14px;
 }
 
 .td-10 {
   max-width: 10%;
+}
+
+tr {
+  display: table-row;
+  height: 48px;
+}
+
+.esquerda {
+  text-align: left;
 }
 
 mat-card-footer {
