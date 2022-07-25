@@ -22,4 +22,5 @@ export interface OrdemDeServicoTable {
   numero: string,
   descricao: string,
   profissionais: string,
+  profissao: string
 }

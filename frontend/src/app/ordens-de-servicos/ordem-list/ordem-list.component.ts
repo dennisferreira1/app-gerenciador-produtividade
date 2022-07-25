@@ -15,7 +15,7 @@ import { OrdemService } from './../service/ordem.service';
   templateUrl: './ordem-list.component.html',
 })
 export class OrdemListComponent implements AfterViewInit {
-  displayedColumns: string[] = ['numero', 'descricao', 'profissional'];
+  displayedColumns: string[] = ['numero', 'descricao', 'profissão', 'profissional'];
   dataSource: MatTableDataSource<OrdemDeServicoTable> = new MatTableDataSource();
 
   ordemDeServicoTable: OrdemDeServicoTable[] = [];
@@ -41,7 +41,8 @@ export class OrdemListComponent implements AfterViewInit {
             id: dado.id,
             numero: dado.numero,
             descricao: dado.descricao,
-            profissionais: dado.profissionais.map(p => p.nome).toString()
+            profissionais: dado.profissionais.map(p => p.nome).toString(),
+            profissao: dado.profissionais.map(p => p.profissao)[0]
           })
         }
 
