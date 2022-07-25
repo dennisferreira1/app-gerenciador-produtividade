@@ -1,7 +1,9 @@
 import { Profissional } from "src/app/profissionais/model/profissional"
 
 export interface ProdutividadeOrderTable {
-  posicao?: number
+  posicao?: number,
+  nomeProfissional: string, // para poder utilizar o filtro da tabela q só funciona com string
+  profissao: string, // para poder utilizar o filtro da tabela q só funciona com string
   profissional: Profissional,
   totalDeHoras: number
 }

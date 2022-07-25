@@ -52,6 +52,8 @@ export class ProdutividadeListComponent implements AfterViewInit {
                 totalHoras += ordem.totalHorasExecucao || 0;
               }
               this.listProdutividadeOrdenada.push({
+                nomeProfissional: p.nome,
+                profissao: p.profissao,
                 profissional: p,
                 totalDeHoras: totalHoras,
               });
