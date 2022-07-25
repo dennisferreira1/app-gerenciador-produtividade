@@ -48,7 +48,7 @@ public class OrdemService {
             totalHorasQuantitativos += q.getServico().getHorasParaExecutar1Und() * q.getQuantidade();
         }
 
-        ordemServico.setTotalHorasExecucao(totalHorasQuantitativos);
+        ordemServico.setTotalHorasExecucao(totalHorasQuantitativos / ordemDTO.getProfissionais().size());
         ordemServico = ordemRepository.saveAndFlush(ordemServico);
 
         return convertParaDTO(ordemServico);
@@ -78,7 +78,7 @@ public class OrdemService {
             totalHorasQuantitativos += q.getServico().getHorasParaExecutar1Und() * q.getQuantidade();
         }
 
-        ordemBuscada.setTotalHorasExecucao(totalHorasQuantitativos);
+        ordemBuscada.setTotalHorasExecucao(totalHorasQuantitativos / ordemDTO.getProfissionais().size());
 
         return convertParaDTO(ordemRepository.saveAndFlush(ordemBuscada));
     }
