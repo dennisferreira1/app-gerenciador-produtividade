@@ -13,8 +13,13 @@
       <mat-form-field>
         <mat-label>Profissão</mat-label>
         <mat-select disableRipple formControlName="profissao">
-          <mat-option value="Pintor">Pintor</mat-option>
+          <mat-option value="Carpinteiro">Calceteiro</mat-option>
+          <mat-option value="Carpinteiro">Carpinteiro</mat-option>
+          <mat-option value="Encanador">Encanador</mat-option>
           <mat-option value="Marceneiro">Marceneiro</mat-option>
+          <mat-option value="Pedreiro">Pedreiro</mat-option>
+          <mat-option value="Pintor">Pintor</mat-option>
+          <mat-option value="Marceneiro">Soldador</mat-option>
         </mat-select>
       </mat-form-field>
       <div class="erro-validacao" *ngIf="this.form.get('profissao')?.hasError('required') && this.form.get('profissao')?.touched">Profissão é obrigatória</div>
