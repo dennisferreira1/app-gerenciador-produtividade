@@ -19,8 +19,8 @@
       </ng-container>
 
       <ng-container matColumnDef="acoes">
-        <th mat-header-cell *matHeaderCellDef class="lg"> Ações </th>
-        <mat-cell *matCellDef="let profissional">
+        <th mat-header-cell *matHeaderCellDef class="lg texto-centro"> Ações </th>
+        <mat-cell *matCellDef="let profissional" class="centro">
           <button (click)="editar(profissional.id)" mat-icon-button color="primary" aria-label="Editar curso" class="lg">
             <mat-icon>edit</mat-icon>
           </button>
