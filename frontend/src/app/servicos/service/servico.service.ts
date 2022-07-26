@@ -8,7 +8,7 @@ import { Servico } from '../model/servico';
 })
 export class ServicoService {
 
-  private readonly API = 'api';
+  private readonly API = 'https://gerenciador-produtividade.herokuapp.com/api';
 
   constructor(private http: HttpClient) { }
 
