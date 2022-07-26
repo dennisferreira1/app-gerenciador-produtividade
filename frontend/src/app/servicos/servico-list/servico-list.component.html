@@ -1,0 +1,62 @@
+<mat-toolbar class="space-around">
+  <h2 class="mat-h2">Serviços Cadastrados</h2>
+  <button (click)="add()" mat-mini-fab color="accent">
+    <mat-icon>add</mat-icon>
+  </button>
+</mat-toolbar>
+<mat-card>
+  <div class="mat-elevation-z8">
+    <table class="full-width-table" mat-table [dataSource]="servicos">
+
+      <ng-container matColumnDef="descricao">
+        <th mat-header-cell *matHeaderCellDef> Descrição </th>
+        <td mat-cell *matCellDef="let servico"> {{servico.descricao}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="und">
+        <th mat-header-cell *matHeaderCellDef> Und </th>
+        <td mat-cell *matCellDef="let servico"> {{servico.und}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="horas">
+        <th mat-header-cell *matHeaderCellDef class="texto-centro"> Horas para executar 1 und </th>
+        <td mat-cell *matCellDef="let servico" class="texto-centro"> {{servico.horasParaExecutar1Und | number:'1.2-2'}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="acoes">
+        <th mat-header-cell *matHeaderCellDef class="lg texto-centro"> Ações </th>
+        <mat-cell *matCellDef="let profissional" class="centro">
+          <button (click)="editar(profissional.id)" mat-icon-button color="primary" aria-label="Editar curso" class="lg">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button (click)="excluir(profissional)" mat-icon-button color="warn" aria-label="Deletar curso" class="lg">
+            <mat-icon>delete</mat-icon>
+          </button>
+          <button mat-icon-button color="basic" aria-label="" class="lg">
+            <mat-icon>subject</mat-icon>
+          </button>
+          <div class="sm">
+            <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+              <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+              <button (click)="editar(profissional.id)" mat-menu-item>
+                <mat-icon>edit</mat-icon>
+                <span>Editar</span>
+              </button>
+              <button (click)="excluir(profissional)" mat-menu-item>
+                <mat-icon>delete</mat-icon>
+                <span>Excluir</span>
+              </button>
+            </mat-menu>
+          </div>
+        </mat-cell>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+    </table>
+  </div>
+</mat-card>
+

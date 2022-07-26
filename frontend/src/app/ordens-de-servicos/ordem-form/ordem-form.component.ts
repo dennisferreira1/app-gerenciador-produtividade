@@ -10,12 +10,12 @@ import { MatTable } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
 import { map, startWith } from 'rxjs';
 import { ProfissionalService } from 'src/app/profissionais/service/profissional.service';
-import { Servico } from 'src/app/servicos/servico';
+import { Servico } from 'src/app/servicos/model/servico';
 import { ErrorDialogComponent } from 'src/app/shared/components/error-dialog/error-dialog.component';
 import { SuccessDialogComponent } from 'src/app/shared/components/success-dialog/success-dialog.component';
+import { ServicoService } from '../../servicos/service/servico.service';
 import { OrdemDeServico } from '../model/ordem-de-servico';
 import { Profissional } from './../../profissionais/model/profissional';
-import { ServicoService } from './../../servicos/servico.service';
 import { ItemServico } from './../model/ordem-de-servico';
 import { OrdemService } from './../service/ordem.service';
 
@@ -59,7 +59,7 @@ export class OrdemFormComponent implements OnInit {
 
     profissionalService.buscarProfissionais().subscribe(dados => this.allProfissionais = dados);
 
-    servicoService.getServicos().subscribe(dados => this.allServicos = dados)
+    servicoService.buscarServicos().subscribe(dados => this.allServicos = dados)
 
     this.profissionaisCtrl.valueChanges.pipe(
       startWith(null),

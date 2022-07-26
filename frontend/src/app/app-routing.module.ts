@@ -8,6 +8,9 @@ const routes: Routes = [
   { path: 'profissionais',
     loadChildren: () => import('./profissionais/profissionais.module').then(m => m.ProfissionaisModule)
   },
+  { path: 'servicos',
+    loadChildren: () => import('./servicos/servicos.module').then(m => m.ServicosModule)
+  },
   { path: 'ordens-de-servicos',
     loadChildren: () => import('./ordens-de-servicos/ordens-de-servicos.module').then(m => m.OrdensDeServicosModule)
   },

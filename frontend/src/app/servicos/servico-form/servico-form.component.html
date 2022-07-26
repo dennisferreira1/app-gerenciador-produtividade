@@ -1,0 +1,40 @@
+<mat-card class="min-width">
+  <mat-card-header>
+    <mat-card-title>Detalhes do Serviço</mat-card-title>
+  </mat-card-header>
+  <mat-card-content class="full-width">
+    <form [formGroup]="form">
+
+      <mat-form-field class="full-width">
+        <input matInput placeholder="Descrição" formControlName="descricao">
+      </mat-form-field>
+      <div class="erro-validacao" *ngIf="this.form.get('descricao')?.hasError('required') && this.form.get('descricao')?.touched">Descrição é obrigatório</div>
+
+      <mat-form-field>
+        <mat-label>Und</mat-label>
+        <mat-select disableRipple formControlName="und">
+          <mat-option value="m²">m²</mat-option>
+          <mat-option value="m">m</mat-option>
+          <mat-option value="und">und</mat-option>
+          <mat-option value="m³">m³</mat-option>
+          <mat-option value="Kg">Kg</mat-option>
+          <mat-option value="litro">litro</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <div class="erro-validacao" *ngIf="this.form.get('und')?.hasError('required') && this.form.get('und')?.touched">Und é obrigatória</div>
+
+      <mat-form-field class="full-width">
+        <input type="number" matInput placeholder="Horas para executar 1 unidade" formControlName="horasParaExecutar1Und">
+      </mat-form-field>
+      <div class="erro-validacao" *ngIf="this.form.get('horas')?.hasError('required') && this.form.get('horas')?.touched">Horas é obrigatório</div>
+
+    </form>
+  </mat-card-content>
+
+  <mat-card-actions>
+    <button mat-raised-button color="primary" (click)="salvar()" [disabled]="!this.form.valid">Salvar</button>
+    <button mat-raised-button (click)="cancelar()">Cancelar</button>
+  </mat-card-actions>
+
+</mat-card>
+
